@@ -1,0 +1,10 @@
+[07-Dec-2021 11:55:38 UTC] PHP Fatal error:  Uncaught Error: Call to a member function update() on null in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/optinmonster/OMAPI/Actions.php:203
+Stack trace:
+#0 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(303): OMAPI_Actions->check_upgrade_routines('')
+#1 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters('', Array)
+#2 /home2/nischtha/demo.nischalpantha.com/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#3 /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/optinmonster/optin-monster-wp-api.php(429): do_action('optin_monster_a...')
+#4 /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/optinmonster/optin-monster-wp-api.php(354): OMAPI->load_global()
+#5 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(303): OMAPI->init('')
+#6 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(NULL, Array)
+#7 /home2/nischtha/demo.nischalpantha.com/wp-includes/pl in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/optinmonster/OMAPI/Actions.php on line 203
