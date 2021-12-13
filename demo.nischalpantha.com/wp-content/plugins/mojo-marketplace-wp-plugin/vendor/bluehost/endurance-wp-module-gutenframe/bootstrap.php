@@ -24,7 +24,7 @@ function eig_module_gutenframe_register() {
 	if ( ! defined( 'EIG_GUTENFRAME_PYM_URL' ) ) {
 		define(
 			'EIG_GUTENFRAME_PYM_URL',
-			trailingslashit( MM_BASE_URL ) . 'vendor/bluehost/endurance-wp-module-gutenframe/assets/pym.js'
+			str_replace( WP_CONTENT_DIR, content_url(), __DIR__ ) . '/assets/pym.js'
 		);
 	}
 }
@@ -40,12 +40,12 @@ function eig_module_gutenframe_register() {
  * @return void
  */
 function eig_module_gutenframe_load() {
-	if ( 
-		class_exists( 'EIG_Module_Gutenframe' ) 
-		&& is_user_logged_in()
-		&& current_user_can( 'edit_posts' )
-	    && is_admin() 
-   	) {
+	if (
+		class_exists( 'EIG_Module_Gutenframe' ) &&
+		is_user_logged_in() &&
+		current_user_can( 'edit_posts' ) &&
+		is_admin()
+	) {
 		new EIG_Module_Gutenframe();
 	}
 }

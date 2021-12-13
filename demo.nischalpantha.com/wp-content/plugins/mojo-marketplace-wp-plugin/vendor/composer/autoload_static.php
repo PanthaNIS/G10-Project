@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df
+class ComposerStaticInitb7dd42f53e4259a6b12154371e16944d
 {
     public static $files = array (
         '637fa4e5a9fe2956d844ead1daab0f31' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-business-reviews/bootstrap.php',
@@ -12,6 +12,7 @@ class ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df
         '0a7ee76a6dd15c6349ed695bd3b2a987' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-loader/module-loader.php',
         '9faa360fe54c7920477332fc60d95b84' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-spam-prevention/bootstrap.php',
         '6e09b332987211bb2939025b3ed3c51b' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-sso/bootstrap.php',
+        'b62570ec8ed5d9ce1990d98269e51fa3' => __DIR__ . '/..' . '/endurance/wp-module-data/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -22,6 +23,7 @@ class ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df
         'E' => 
         array (
             'Endurance_WP_Plugin_Updater\\' => 28,
+            'Endurance\\WP\\Module\\Data\\' => 25,
         ),
     );
 
@@ -33,6 +35,10 @@ class ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df
         'Endurance_WP_Plugin_Updater\\' => 
         array (
             0 => __DIR__ . '/..' . '/bluehost/endurance-wp-plugin-updater',
+        ),
+        'Endurance\\WP\\Module\\Data\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/endurance/wp-module-data/src',
         ),
     );
 
@@ -47,7 +53,30 @@ class ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'EIG_Module_Gutenframe' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-gutenframe/src/class-eig-module-gutenframe.php',
+        'Endurance\\WP\\Module\\Data\\API\\Events' => __DIR__ . '/..' . '/endurance/wp-module-data/src/API/Events.php',
+        'Endurance\\WP\\Module\\Data\\API\\Verify' => __DIR__ . '/..' . '/endurance/wp-module-data/src/API/Verify.php',
+        'Endurance\\WP\\Module\\Data\\Data' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Data.php',
+        'Endurance\\WP\\Module\\Data\\Event' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Event.php',
+        'Endurance\\WP\\Module\\Data\\EventManager' => __DIR__ . '/..' . '/endurance/wp-module-data/src/EventManager.php',
+        'Endurance\\WP\\Module\\Data\\Helpers\\Encryption' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Helpers/Encryption.php',
+        'Endurance\\WP\\Module\\Data\\Helpers\\Multibrand' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Helpers/Multibrand.php',
+        'Endurance\\WP\\Module\\Data\\Helpers\\Plugin' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Helpers/Plugin.php',
+        'Endurance\\WP\\Module\\Data\\Helpers\\SiteHealth' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Helpers/SiteHealth.php',
+        'Endurance\\WP\\Module\\Data\\Helpers\\Transient' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Helpers/Transient.php',
+        'Endurance\\WP\\Module\\Data\\HubConnection' => __DIR__ . '/..' . '/endurance/wp-module-data/src/HubConnection.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\Admin' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/Admin.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\BHPlugin' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/BHPlugin.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\Content' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/Content.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\Cron' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/Cron.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\Jetpack' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/Jetpack.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\Listener' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/Listener.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\Plugin' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/Plugin.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\SiteHealth' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/SiteHealth.php',
+        'Endurance\\WP\\Module\\Data\\Listeners\\Theme' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Listeners/Theme.php',
+        'Endurance\\WP\\Module\\Data\\Logger' => __DIR__ . '/..' . '/endurance/wp-module-data/src/Logger.php',
+        'Endurance\\WP\\Module\\Data\\SubscriberInterface' => __DIR__ . '/..' . '/endurance/wp-module-data/src/SubscriberInterface.php',
         'Endurance_Collection' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-loader/includes/Collection.php',
         'Endurance_ModuleManager' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-loader/includes/ModuleManager.php',
         'Endurance_ModuleRegistry' => __DIR__ . '/..' . '/bluehost/endurance-wp-module-loader/includes/ModuleRegistry.php',
@@ -80,10 +109,10 @@ class ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df::$prefixDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbbc4970bfabc85610b6cb47433eef4df::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb7dd42f53e4259a6b12154371e16944d::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb7dd42f53e4259a6b12154371e16944d::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb7dd42f53e4259a6b12154371e16944d::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitb7dd42f53e4259a6b12154371e16944d::$classMap;
 
         }, null, ClassLoader::class);
     }

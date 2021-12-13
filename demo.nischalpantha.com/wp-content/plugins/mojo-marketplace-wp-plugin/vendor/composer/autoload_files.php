@@ -11,4 +11,5 @@ return array(
     '0a7ee76a6dd15c6349ed695bd3b2a987' => $vendorDir . '/bluehost/endurance-wp-module-loader/module-loader.php',
     '9faa360fe54c7920477332fc60d95b84' => $vendorDir . '/bluehost/endurance-wp-module-spam-prevention/bootstrap.php',
     '6e09b332987211bb2939025b3ed3c51b' => $vendorDir . '/bluehost/endurance-wp-module-sso/bootstrap.php',
+    'b62570ec8ed5d9ce1990d98269e51fa3' => $vendorDir . '/endurance/wp-module-data/bootstrap.php',
 );

@@ -9,3 +9,5 @@
 			UNIQUE KEY email (email)
 		) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_520_ci made by require_once('wp-admin/admin.php'), do_action('admin_init'), WP_Hook->do_action, WP_Hook->apply_filters, CreativeMail\Managers\DatabaseManager->update_database_check, CreativeMail\Managers\DatabaseManager->create_contacts_table, dbDelta
 [07-Dec-2021 12:00:02 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/mysterythemes-demo-importer/admin/partials/mtdi-import-popup.php on line 161
+[11-Dec-2021 10:32:09 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/widget-google-reviews/includes/class-view.php on line 109
+[11-Dec-2021 10:32:09 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/widget-google-reviews/includes/class-view.php on line 251

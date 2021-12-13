@@ -8,4 +8,5 @@ $baseDir = dirname($vendorDir);
 return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Endurance_WP_Plugin_Updater\\' => array($vendorDir . '/bluehost/endurance-wp-plugin-updater'),
+    'Endurance\\WP\\Module\\Data\\' => array($vendorDir . '/endurance/wp-module-data/src'),
 );

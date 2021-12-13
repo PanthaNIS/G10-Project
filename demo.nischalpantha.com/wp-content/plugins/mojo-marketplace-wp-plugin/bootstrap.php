@@ -2,7 +2,7 @@
 /**
  * Main plugin bootstrap process.
  *
- * @package Mojo Marketplace
+ * @package MojoMarketplace
  */
 
 use Endurance_WP_Plugin_Updater\Updater;
@@ -51,4 +51,4 @@ if ( version_compare( PHP_VERSION, '5.3.29' ) >= 0 ) {
 
 mm_require( MM_BASE_DIR . 'inc/admin-page-notifications-blocker.php' );
 
-new Updater( 'mojoness', 'mojo-marketplace-wp-plugin', 'mojo-marketplace-wp-plugin/mojo-marketplace.php' );
+new Updater( 'bluehost', 'mojo-marketplace-wp-plugin', plugin_basename( MM_FILE ) );
