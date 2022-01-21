@@ -14,6 +14,7 @@ class Admin_Notice {
         'settings_reset_all'    => 'All data including settings and reviews deleted successfully.',
         'settings_debug_mode_0' => 'Debug mode disabled successfully.',
         'settings_debug_mode_1' => 'Debug mode enabled successfully.',
+        'settings_update_db'    => 'Database updated successfully.',
     );
 
     public function register() {

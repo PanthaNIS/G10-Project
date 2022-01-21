@@ -7,7 +7,8 @@ use WP_Rplg_Google_Reviews\Includes\Post_Types;
 class Admin_Feed_Columns {
 
     private static $plugin_themes = array(
-        'list' => 'List',
+        'list'   => 'List',
+        'slider' => 'Slider',
     );
 
     public function __construct($feed_deserializer) {

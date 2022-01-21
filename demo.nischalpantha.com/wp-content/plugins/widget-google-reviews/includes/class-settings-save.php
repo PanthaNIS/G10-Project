@@ -78,6 +78,12 @@ class Settings_Save {
             $notice_code = 'settings_debug_mode_' . $debug_mode;
         }
 
+        $update_db_ver = sanitize_text_field(wp_unslash($_POST['update_db_ver']));
+        if (isset($_POST['update_db']) && strlen($update_db_ver) > 0) {
+            $this->activator->update_db($update_db_ver);
+            $notice_code = 'settings_update_db';
+        }
+
         $this->redirect_to_tab($notice_code);
     }
 
@@ -102,7 +108,7 @@ class Settings_Save {
     }
 
     private function check_nonce() {
-        $nonce_actions = array('active', 'save', 'create_db', 'reset', 'reset_all', 'debug_mode');
+        $nonce_actions = array('active', 'save', 'create_db', 'reset', 'reset_all', 'debug_mode', 'update_db');
         $nonce_form_prefix = 'grw-form_nonce_';
         $nonce_action_prefix = 'grw-wpnonce_';
         foreach ($nonce_actions as $key => $value) {

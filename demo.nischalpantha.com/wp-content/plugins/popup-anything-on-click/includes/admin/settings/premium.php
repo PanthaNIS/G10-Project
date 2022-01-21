@@ -12,7 +12,7 @@ if ( !defined( 'ABSPATH' ) ) {
 ?>
 <div class="wrap">
 
-	<h2><?php _e( 'Popup Anything Pro - A Marketing Popup with ', 'popup-anything-on-click' ); ?><span class="wpos-epb"><?php _e( 'Essential Plugin Bundle', 'popup-anything-on-click' ); ?></span></h2><br />	
+	<h2><?php _e( 'Popup Anything Pro - A Marketing Popup with ', 'popup-anything-on-click' ); ?><span class="h-blue"><?php _e( 'Essential Plugin Bundle', 'popup-anything-on-click' ); ?></span></h2>
 
 	<style>
 		.wpos-plugin-pricing-table thead th h2{font-weight: 400; font-size: 2.4em; line-height:normal; margin:0px; color: #2ECC71;}
@@ -21,6 +21,7 @@ if ( !defined( 'ABSPATH' ) ) {
 		table.wpos-plugin-pricing-table{width:100%; text-align: left; border-spacing: 0; border-collapse: collapse; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box;}
 
 		.wpos-plugin-pricing-table th, .wpos-plugin-pricing-table td{font-size:14px; line-height:normal; color:#444; vertical-align:middle; padding:12px;}
+		.wpos-about-epb-table td{padding: 12px 12px 60px;position: relative;}
 
 		.wpos-plugin-pricing-table colgroup:nth-child(1) { width: 31%; border: 0 none; }
 		.wpos-plugin-pricing-table colgroup:nth-child(2) { width: 22%; border: 1px solid #ccc; }
@@ -33,7 +34,13 @@ if ( !defined( 'ABSPATH' ) ) {
 		.wpos-plugin-pricing-table thead th p.promo {font-size: 14px; color: #fff; position: absolute; bottom:0; left: -17px; z-index: 1000; width: 100%; margin: 0; padding: .625em 17px .75em; background-color: #ca4a1f; box-shadow: 0 2px 4px rgba(0,0,0,.25); border-bottom: 1px solid #ca4a1f;}
 		.wpos-plugin-pricing-table thead th p.promo:before {content: ""; position: absolute; display: block; width: 0px; height: 0px; border-style: solid; border-width: 0 7px 7px 0; border-color: transparent #900 transparent transparent; bottom: -7px; left: 0;}
 		.wpos-plugin-pricing-table thead th p.promo:after {content: ""; position: absolute; display: block; width: 0px; height: 0px; border-style: solid; border-width: 7px 7px 0 0; border-color: #900 transparent transparent transparent; bottom: -7px; right: 0;}
-
+		.wpos-about-epb-table{margin:10px 0;}
+		.wpos-about-epb-table, .wpos-about-epb-table td{border:1px solid #ccc;}
+		.wpos-about-epb-table th {background: #ff4081 !important; font-size:18px; font-weight:100%;  color:#fff; border-bottom: 1px solid #ccc !important;  padding:10px !important; color:#fff !important;}
+		.wpos-about-epb-table th, .wpos-about-epb-table td{text-align:left !important; vertical-align:top;}
+		.wpos-about-epb-table td ul{list-style:none;}		
+		.wpos-about-epb-table ul li::before {content: "\2022";color:#ff2700 ;font-weight: bold;display: inline-block;width: 15px;}
+		
 		/* Tablebody */
 		.wpos-plugin-pricing-table tbody th{background: #fff; border-left: 1px solid #ccc; font-weight: 600;}
 		.wpos-plugin-pricing-table tbody th span{font-weight: normal; font-size: 87.5%; color: #999; display: block;}
@@ -50,8 +57,16 @@ if ( !defined( 'ABSPATH' ) ) {
 		/* Table Footer */
 		.wpos-plugin-pricing-table tfoot th, .wpos-plugin-pricing-table tfoot td{text-align: center; border-top: 1px solid #ccc;}
 		.wpos-plugin-pricing-table tfoot a, .wpos-plugin-pricing-table thead a{font-weight: 600; color: #fff; text-decoration: none; text-transform: uppercase; display: inline-block; padding: 1em 2em; background: #ff2700; border-radius: .2em;}
-		
+		a.epb-cutom-button{font-weight: 600; color: #fff; text-decoration: none; text-transform: uppercase; display: inline-block; padding: 1em 2em; background: #ff2700; border-radius: .2em;}
 		.wpos-epb{color:#ff2700 !important;}
+
+		.wp-plugin-icon{position: absolute;bottom: 15px;}
+		.wp-plugin-icon img {margin: 0 5px;}
+		.wp-plugin-icon span{font-size: 14px;font-style: italic;color: red;display: block;}
+		.wp-icons {margin-bottom: 20px;text-align: center;}
+		.wp-icons img{vertical-align: top;}
+		.wp-icons ul{margin: 0;}
+		.wp-icons li{display: inline-block;margin-right: 5px;}
 		
 		/* SideBar */
 		.wpos-sidebar .wpos-epb-wrap{background:#0055fb; color:#fff; padding:15px;}
@@ -64,11 +79,87 @@ if ( !defined( 'ABSPATH' ) ) {
 		.wpos-sidebar .wpos-epb-wrap p{font-size:16px;}
 		.wpos-sidebar .wpos-epb-wrap .button-yellow{font-weight: 600;color: #000; text-align:center;text-decoration: none;display:block;padding: 1em 2em;background: #ffff00;border-radius: .2em;}
 		.wpos-sidebar .wpos-epb-wrap .button-orange{font-weight: 600;color: #fff; text-align:center;text-decoration: none;display:block;padding: 1em 2em;background: #ff2700;border-radius: .2em;}
+		.larger-font{font-size:24px; line-height:35px; margin:0px;}
+		.h-blue{color:#0055fb ;}
+		.h-orange{color:#FF5D52 ;}
 	</style>
 
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-2">
 			<div id="post-body-content">
+				
+				<h3 class="larger-font"><?php _e( 'Well <span style="color:#388e3c"> optimized</span>, <span style="color:#7b1fa2">light weight</span> & <span style="color:#3e50b4">expandable</span> plugins <br /> for <span style="background:#ff4081; color:#fff;">web site, landing pages &amp; conversions</span>', 'popup-anything-on-click' ); ?></h3>
+				<h3 class=""><?php _e( 'Multiple pre-built template options with <span class="h-orange"> Gutenberg, DIVI, Elementor, Avada, VC/WPbakery </span>etc page builder/themes', 'popup-anything-on-click' ); ?></h3>
+				<h3 class="larger-font"><?php _e( '<span class="h-blue">46 plugins</span>, <span class="h-blue">10 sliders</span> with <span class="h-blue">2000+</span> pre-built templates in <span class="h-blue">Essential Bundle</span>', 'popup-anything-on-click' ); ?></h3>
+				<h3 style="text-align:center;"><?php _e( 'Top plugins category wise:', 'popup-anything-on-click' ); ?></h3>
+				
+				<table class="wpos-plugin-pricing-table wpos-about-epb-table">
+					<thead>
+						<tr>
+							<th>Web Site</th>
+							<th>Landing Pages</th>
+							<th>Conversions</th>	    		
+						</tr>
+						<tr>
+							<td>
+								<ul>
+									<li>Logo Showcase Responsive Slider</li>
+									<li>Responsive Recent Post Slider</li>
+									<li>Slick Slider and Image Carousel</li>
+									<li>Blog Designer – Post and Widget</li>
+									<li>Album and Image Gallery plus Lightbox</li>
+									<li>Essential Security</li>
+								</ul>
+								<div class="wp-plugin-icon">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/utility-50.png" width="26">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/security-icon.png" width="26">
+								</div>
+							</td>
+							<td>
+								<ul>
+									<li>Popup Anything – A Marketing Popup</li>
+									<li>Countdown Timer Ultimate</li>
+									<li>Woo Product Slider and Carousel</li>
+									<li>Pricing Table Ultimate Pro</li>
+									<li> Social Proof</li>
+									<li> Whatsapp Chat Support</li>
+								</ul>
+								<div class="wp-plugin-icon">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/utility-50.png" width="26">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/inboundwp-50.png" width="26">
+								</div>
+							</td>
+							<td>
+								<ul>
+									<li>Popup Anything – A Marketing Popup</li>
+									<li>Countdown Timer Ultimate</li>
+									<li>SlidersPack</li>
+									<li>Testimonial with Widget</li>
+									<li>Social Proof</li>
+									<li>Whatsapp Chat Support</li>
+								</ul>
+								<div class="wp-plugin-icon">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/utility-50.png" width="26">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/inboundwp-50.png" width="26">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/SlidersPack-50.png" width="26">
+									<img src="<?php echo POPUPAOC_URL; ?>assets/images/security-icon.png" width="26">
+								</div>
+							</td>
+						</tr>
+					</thead>
+				</table>
+				<div class="wp-icons">
+					<ul>
+						<li><img src="<?php echo POPUPAOC_URL; ?>assets/images/utility-50.png" width="18"> - Utility Plugin (Total 39), </li>
+						<li><img src="<?php echo POPUPAOC_URL; ?>assets/images/inboundwp-50.png" width="15">  -  Inbound Maketing (Total 6), </li>
+						<li><img src="<?php echo POPUPAOC_URL; ?>assets/images/SlidersPack-50.png" width="16">  -  SlidersPack (Total 10), </li>
+						<li><img src="<?php echo POPUPAOC_URL; ?>assets/images/security-icon.png" width="16">  -  Essnetial Security</li>
+					</ul>
+					<a class="epb-cutom-button" href="<?php echo POPUPAOC_SITE_LINK; ?>/pricing/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Upgrade-PRO-Top-Cat" target="_blank">Buy Now</a>
+				</div>
+
+				<h3 style="text-align:center"><?php _e( 'Compare "Popup Anything - A Marketing Popup" Free VS Pro', 'popup-anything-on-click' ); ?></h3>
+
 				<table class="wpos-plugin-pricing-table">
 					<colgroup></colgroup>
 					<colgroup></colgroup>

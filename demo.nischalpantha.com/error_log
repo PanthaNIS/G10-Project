@@ -8,3 +8,4 @@ Stack trace:
 #5 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(303): OMAPI->init('')
 #6 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(NULL, Array)
 #7 /home2/nischtha/demo.nischalpantha.com/wp-includes/pl in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/optinmonster/OMAPI/Actions.php on line 203
+[14-Dec-2021 05:14:41 UTC] PHP Warning:  mkdir(): File exists in /home2/nischtha/demo.nischalpantha.com/wp-content/mu-plugins/endurance-page-cache.php on line 641

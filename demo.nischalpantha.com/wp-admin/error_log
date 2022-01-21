@@ -11,3 +11,16 @@
 [07-Dec-2021 12:00:02 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/mysterythemes-demo-importer/admin/partials/mtdi-import-popup.php on line 161
 [11-Dec-2021 10:32:09 UTC] PHP Warning:  Invalid argument supplied for foreach() in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/widget-google-reviews/includes/class-view.php on line 109
 [11-Dec-2021 10:32:09 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/widget-google-reviews/includes/class-view.php on line 251
+[19-Jan-2022 14:36:48 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function Endurance\WP\Module\Data\Listeners\bh_has_plugin_install_date() in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/mojo-marketplace-wp-plugin/vendor/endurance/wp-module-data/src/Listeners/BHPlugin.php:38
+Stack trace:
+#0 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(305): Endurance\WP\Module\Data\Listeners\BHPlugin->site_launch('false', false)
+#1 /home2/nischtha/demo.nischalpantha.com/wp-includes/plugin.php(189): WP_Hook->apply_filters('false', Array)
+#2 /home2/nischtha/demo.nischalpantha.com/wp-includes/option.php(430): apply_filters('pre_update_opti...', 'false', false, 'mm_coming_soon')
+#3 /home2/nischtha/demo.nischalpantha.com/wp-admin/options.php(314): update_option('mm_coming_soon', 'false')
+#4 {main}
+  thrown in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/mojo-marketplace-wp-plugin/vendor/endurance/wp-module-data/src/Listeners/BHPlugin.php on line 38
+[20-Jan-2022 10:41:29 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 375
+[20-Jan-2022 10:42:13 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 375
+[20-Jan-2022 10:43:59 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 550
+[20-Jan-2022 10:46:02 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 375
+[20-Jan-2022 10:46:52 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 550

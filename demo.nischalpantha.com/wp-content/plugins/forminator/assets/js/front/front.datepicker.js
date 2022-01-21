@@ -107,11 +107,11 @@
 						$(this).datepicker( 'option', 'minDate', null );
 					}
 					if( minDate ) {
-						var min_date = new Date( minDate );
+						var min_date = new Date( minDate.replace(/-/g, '\/').replace(/T.+/, '') );
 						$(this).datepicker( 'option', 'minDate', min_date );
 					}
 					if( maxDate ) {
-						var max_date = new Date( maxDate );
+						var max_date = new Date( maxDate.replace(/-/g, '\/').replace(/T.+/, '') );
 						$(this).datepicker( 'option', 'maxDate', max_date );
 					}
 					if( startField ) {

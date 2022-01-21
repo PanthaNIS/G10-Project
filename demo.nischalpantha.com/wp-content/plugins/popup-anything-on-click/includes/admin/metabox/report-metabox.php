@@ -65,7 +65,7 @@ $display_rule_link = add_query_arg( array( 'post_type' => POPUPAOC_POST_TYPE, 'p
 	<!-- Pro Notice -->
 	<div class="paoc-pro-notice">
 		<i class="dashicons dashicons-money-alt"></i>
-		<?php echo sprintf( __( 'Upgrade to <a href="%s" target="_blank">Pro Version</a> with Essential Plugin Bundle to boost your website design.', 'popup-anything-on-click'), POPUPAOC_PLUGIN_LINK); ?>		
+		<?php echo sprintf( __( 'Upgrade to <a href="%s" target="_blank">Pro Version</a> with Essential Plugin Bundle to boost your <b style="color:#FF5D52;">web site, landing pages & conversions</b>.', 'popup-anything-on-click'), POPUPAOC_PLUGIN_LINK); ?>		
 	</div>
 	<?php } ?>
 </div>

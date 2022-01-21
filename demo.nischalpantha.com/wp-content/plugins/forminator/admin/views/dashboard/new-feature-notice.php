@@ -1,7 +1,7 @@
 <?php
 $current_user = wp_get_current_user();
-$banner_1x    = forminator_plugin_url() . 'assets/images/mailchimp-group.png';
-$banner_2x    = forminator_plugin_url() . 'assets/images/mailchimp-group@2x.png';
+$banner_1x    = forminator_plugin_url() . 'assets/images/conditional-data.png';
+$banner_2x    = forminator_plugin_url() . 'assets/images/conditional-data@2x.png';
 ?>
 
 <div
@@ -17,7 +17,7 @@ $banner_2x    = forminator_plugin_url() . 'assets/images/mailchimp-group@2x.png'
 		role="dialog"
 	>
 
-		<div class="sui-slider forminator-feature-modal" data-prop="forminator_dismiss_feature_1153" data-nonce="<?php echo esc_attr( wp_create_nonce( 'forminator_dismiss_notification' ) ); ?>">
+		<div class="sui-slider forminator-feature-modal" data-prop="forminator_dismiss_feature_1158" data-nonce="<?php echo esc_attr( wp_create_nonce( 'forminator_dismiss_notification' ) ); ?>">
 
 			<ul role="document" class="sui-slider-content">
 
@@ -40,7 +40,7 @@ $banner_2x    = forminator_plugin_url() . 'assets/images/mailchimp-group@2x.png'
 
 							<?php // if ( FORMINATOR_PRO ) { ?>
 
-								<h2 class="sui-box-title"><?php esc_html_e( 'New! Mailchimp Groups & Tags', 'forminator' ); ?></h2>
+								<h2 class="sui-box-title"><?php esc_html_e( 'New! Conditionally Send Data to Apps', 'forminator' ); ?></h2>
 
 							<?php // } else { ?>
 
@@ -50,7 +50,7 @@ $banner_2x    = forminator_plugin_url() . 'assets/images/mailchimp-group@2x.png'
 
 						<div class="sui-box-body sui-block-content-center">
 
-							<p class="sui-description"><?php printf( esc_html__( 'Hey, %s! Ready to start organizing your audience? You can now use Mailchimp Groups and Tags in Forminator to organize your audience based on their interests and submitted form data.', 'forminator' ), esc_html( ucfirst( $current_user->display_name ) ) ); ?></p>
+							<p class="sui-description"><?php printf( esc_html__( 'Hey, %s! You can now conditionally send form data from Forminator to connected applications, such as adding a user to a relevant mailing list or user group, or sending data to a connected app only when the Consent checkbox is checked.', 'forminator' ), esc_html( ucfirst( $current_user->display_name ) ) ); ?></p>
 
 						</div>
 						<div class="sui-box-body" sui-spacing-bottom="0">
@@ -58,13 +58,13 @@ $banner_2x    = forminator_plugin_url() . 'assets/images/mailchimp-group@2x.png'
 							<ul class="sui-list" sui-type="bullets">
 
 								<li>
-									<p class="sui-description"><strong sui-color="darkgray"><?php esc_html_e( 'Multiple Integration Accounts', 'forminator' ); ?></strong></p>
-									<p class="sui-description"><?php esc_html_e( 'In previous versions of Forminator, you could only have one connected account for each third-party integration. Now, you can connect as many third-party accounts as you’d like.', 'forminator' ); ?></p>
+									<p class="sui-description"><strong sui-color="darkgray"><?php esc_html_e( 'Conditional After Submission Behavior', 'forminator' ); ?></strong></p>
+									<p class="sui-description"><?php esc_html_e( 'After submission behaviors have a great new feature: you can now choose what happens after users successfully submit a form based on the data they provide. For example, you can redirect users to specific pages or display different submission messages.', 'forminator' ); ?></p>
 								</li>
 
 								<li>
-									<p class="sui-description"><strong sui-color="darkgray"><?php esc_html_e( 'New Consent Field', 'forminator' ); ?></strong></p>
-									<p class="sui-description"><?php esc_html_e( 'Similar to the GDPR Approval field, the new generic Consent field will allow you to request a user’s consent, with support for visibility conditions.', 'forminator' ); ?></p>
+									<p class="sui-description"><strong sui-color="darkgray"><?php esc_html_e( 'Support for hCaptcha', 'forminator' ); ?></strong></p>
+									<p class="sui-description"><?php esc_html_e( 'In the latest release, you can choose between reCAPTCHA and hCaptcha to stop pesky robots from submitting form data.', 'forminator' ); ?></p>
 								</li>
 
 							</ul>

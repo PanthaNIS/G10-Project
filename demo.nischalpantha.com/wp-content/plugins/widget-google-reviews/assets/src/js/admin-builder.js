@@ -1,4 +1,4 @@
-var HTML_CONTENT = '' +
+var GRW_HTML_CONTENT = '' +
 
     '<div class="grw-builder-platforms grw-builder-inside">' +
 
@@ -67,8 +67,8 @@ var HTML_CONTENT = '' +
                     '<option value="tr">Turkish</option>' +
                     '<option value="uk">Ukrainian</option>' +
                     '<option value="vi">Vietnamese</option>' +
-                    '<option value="zh-CN">Chinese (Simplified)</option>' +
-                    '<option value="zh-TW">Chinese (Traditional)</option>' +
+                    '<option value="zh">Chinese (Simplified)</option>' +
+                    '<option value="zh-Hant">Chinese (Traditional)</option>' +
                 '</select>' +
             '</div>' +
             /*'<div class="grw-builder-option">' +
@@ -219,7 +219,7 @@ function grw_builder_init($, data) {
     var el = document.querySelector(data.el);
     if (!el) return;
 
-    el.innerHTML = HTML_CONTENT;
+    el.innerHTML = GRW_HTML_CONTENT;
 
     if (data.conns) {
         grw_deserialize_connections($, el, data.conns, data.opts);

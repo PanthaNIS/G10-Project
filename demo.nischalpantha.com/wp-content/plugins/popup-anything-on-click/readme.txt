@@ -3,7 +3,7 @@ Contributors: wponlinesupport, anoopranawat, pratik-jain, piyushpatel123, ridhim
 Tags:  modal popup, popup, modal, page load, marketing popup, full-screen popup, HTML popup, image popup, page load popup, popup on click, modal popup on click, full-screen popup on click, on-click popup
 Requires at least: 5.2
 Tested up to: 5.8.2
-Stable tag: 2.0.5
+Stable tag: 2.0.8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -26,6 +26,8 @@ Manage powerful modal popup for your WordPress blog or website. You can add an u
 > OR 
 >
 > [Explore and check pro features with Essential Plugin Bundle](https://www.essentialplugin.com/essential-bundle/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me)
+>
+> [Essential Plugin Bundle](https://www.essentialplugin.com/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me) Well optimized, light weighted & expandable plugins for web site, landing pages & conversions
 
 Popup anything on click is a modal popup plugin for WordPress websites that allows you to add highly customizable popup windows. Set Popup position ie center, top left, top right, bottom left, bottom right, center-left, and center-right.
 
@@ -126,6 +128,10 @@ You can use <code>.paoc-popup-btn</code> class to change the button design as pe
 7) General Settings
 
 == Changelog ==
+
+= 2.0.8 (28, Dec 2021) =
+* [*] Fixed - Multiple Popup render in DOM.
+* [*] Fixed - Fixed the body scroll issue on popup close when div:empty CSS is apply.
 
 = 2.0.7 (17, Nov 2021) =
 * [*] Fix - Resolve Gutenberg WP-Editor script related issue. 

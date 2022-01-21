@@ -251,6 +251,7 @@ class Core {
                     'id'            => $rev->id,
                     'hide'          => $rev->hide,
                     'biz_id'        => $google_biz->id,
+                    'biz_url'       => $place->url,
                     'rating'        => $rev->rating,
                     'text'          => wp_encode_emoji($rev->text),
                     'author_avatar' => $rev->profile_photo_url,

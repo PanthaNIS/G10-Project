@@ -60,7 +60,7 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 				$wrappers = $model->get_fields_grouped();
 			}
 
-			// Load stored record.
+			// Load stored record
 			$settings = apply_filters( 'forminator_form_settings', $this->get_form_settings( $model ), $model, $data, $this );
 
 			if ( isset( $model->settings['form-type'] ) && 'registration' === $model->settings['form-type'] ) {
@@ -92,6 +92,8 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 					)
 				),
 				'notifications' => $notifications,
+				'behaviorArray' => Forminator_Form_Model::get_behavior_array( $model, $settings ),
+				'integrationConditions' => ! empty( $model->integration_conditions ) ? $model->integration_conditions : array(),
 			);
 		}
 
@@ -195,14 +197,11 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 		// If not using the new "submission-behaviour" setting, set it according to the previous settings.
 		if ( ! isset( $form->settings['submission-behaviour'] ) ) {
 			$redirect = ( isset( $form->settings['redirect'] ) && filter_var( $form->settings['redirect'], FILTER_VALIDATE_BOOLEAN ) );
-			$thankyou = ( isset( $form->settings['thankyou'] ) && filter_var( $form->settings['thankyou'], FILTER_VALIDATE_BOOLEAN ) );
 
-			if ( ! $redirect && ! $thankyou ) {
-				$form->settings['submission-behaviour'] = 'behaviour-thankyou';
-			} elseif ( $thankyou ) {
-				$form->settings['submission-behaviour'] = 'behaviour-thankyou';
-			} elseif ( $redirect ) {
+			if ( $redirect ) {
 				$form->settings['submission-behaviour'] = 'behaviour-redirect';
+			} else {
+				$form->settings['submission-behaviour'] = 'behaviour-thankyou';
 			}
 		}
 
@@ -285,7 +284,7 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 			} else {
 				$email = self::get_registration_form_customer_email_slug( $form );
 			}
-			// For customer.
+			//For customer
 			$message  = __( "Your new account on our site {site_title} is ready to go. Here's your details: <br/><br/> {all_fields} <br/><br/>", 'forminator' );
 			$message .= sprintf( __( 'Login to your new account <a href="%s">here</a>.', 'forminator' ), wp_login_url() );
 			$message .= '<br/><br/>---<br/>';
@@ -475,6 +474,9 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 		$model->settings = self::validate_settings( $settings );
 		$model->status   = $status;
 
+		$behaviors        = Forminator_Form_Model::get_behavior_array( $model, $model->settings );
+		$model->behaviors = $behaviors;
+
 		// Save data.
 		$id = $model->save();
 
@@ -510,7 +512,7 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 				$status = $form_model->status;
 			}
 
-			// we need to empty fields cause we will send new data.
+			//we need to empty fields cause we will send new data
 			$form_model->clear_fields();
 		}
 
@@ -548,7 +550,7 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 			}
 		}
 
-		// Handle quiz questions.
+		// Handle quiz questions
 		$form_model->notifications = $notifications;
 
 		$form_model->name     = sanitize_title( $title );
@@ -556,12 +558,16 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 
 		$form_model->settings = $settings;
 
+		$form_model->integration_conditions = ! empty( $template->integration_conditions ) ? $template->integration_conditions : array();
+
+		$form_model->behaviors = ! empty( $template->behaviors ) ? $template->behaviors : array();
+
 		// don't update leads post_status.
 		if ( 'leads' !== $form_model->status ) {
 			$form_model->status = $status;
 		}
 
-		// Save data.
+		// Save data
 		$id = $form_model->save();
 
 		/**
@@ -598,7 +604,7 @@ class Forminator_Custom_Form_Admin extends Forminator_Admin_Module {
 		forminator_update_form_submissions_retention( $id, $retention_number, $retention_unit );
 
 		Forminator_Render_Form::regenerate_css_file( $id );
-		// Purge count forms cache.
+		// Purge count forms cache
 		wp_cache_delete( 'forminator_form_total_entries', 'forminator_form_total_entries' );
 		wp_cache_delete( 'forminator_form_total_entries_publish', 'forminator_form_total_entries_publish' );
 		wp_cache_delete( 'forminator_form_total_entries_draft', 'forminator_form_total_entries_draft' );

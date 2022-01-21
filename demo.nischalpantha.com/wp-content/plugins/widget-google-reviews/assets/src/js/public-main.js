@@ -100,7 +100,7 @@ function _rplg_read_more() {
 }
 
 function _rplg_get_parent(el, cl) {
-    cl = cl || 'wp-gr';
+    cl = cl || 'rplg';
     if (el.className.split(' ').indexOf(cl) < 0) {
         // the last semicolon (;) without braces ({}) in empty loop makes error in WP Faster Cache
         //while ((el = el.parentElement) && el.className.split(' ').indexOf(cl) < 0);
@@ -109,8 +109,8 @@ function _rplg_get_parent(el, cl) {
     return el;
 }
 
-function _rplg_init_slider(el) {
-    el = _rplg_get_parent(el);
+function _grw_init_slider(el) {
+    el = _rplg_get_parent(el, 'wp-gr');
 
     const ROW_ELEM = el.querySelector('.grw-slider .grw-row'),
           REVIEWS_ELEM = el.querySelector('.grw-slider-reviews'),
@@ -119,22 +119,23 @@ function _rplg_init_slider(el) {
     var resizeTimout = null,
         swipeTimout = null;
 
-    window.addEventListener('resize', function() {
-        clearTimeout(resizeTimout);
-        resizeTimout = setTimeout(function() { resize(); }, 150);
-    });
-
     var init = function() {
         if (isVisible(el.querySelector('.grw-slider'))) {
             resize();
             _rplg_init_blazy(10);
-            setTimeout(swipe, 300);
+            if (REVIEW_ELEMS.length) {
+                setTimeout(swipe, 300);
+            }
         } else {
             setTimeout(init, 300);
         }
-        console.log('grw slider init...');
     }
     init();
+
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimout);
+        resizeTimout = setTimeout(function() { resize(); }, 150);
+    });
 
     function resize() {
         if (ROW_ELEM.offsetWidth < 510) {
@@ -150,19 +151,17 @@ function _rplg_init_slider(el) {
         } else {
             ROW_ELEM.className = 'grw-row grw-row-xl';
         }
-        setTimeout(dotsinit, 200);
+        if (REVIEW_ELEMS.length) {
+            setTimeout(dotsinit, 200);
+        }
     }
 
     function dotsinit() {
         var t = REVIEW_ELEMS.length,
             v = REVIEWS_ELEM.offsetWidth / REVIEW_ELEMS[0].offsetWidth;
 
-        console.log('DOTs v', v);
-
         var dots = Math.ceil(t/v),
             dotscnt = el.querySelector('.grw-slider-dots');
-
-         console.log('DOTs dots', dots);
 
         dotscnt.innerHTML = '';
         for (var i = 0; i < dots; i++) {
@@ -171,8 +170,6 @@ function _rplg_init_slider(el) {
 
             var revWidth = REVIEW_ELEMS[0].offsetWidth;
             var center = (REVIEWS_ELEM.scrollLeft + (REVIEWS_ELEM.scrollLeft + revWidth * v)) / 2;
-
-            console.log('CENTER', REVIEWS_ELEM.scrollLeft, revWidth, center);
 
             /*var x = Math.ceil( ((center * 100 / REVIEWS_ELEM.scrollWidth) * dots) / 100 );
             if (x == i + 1) dot.className = 'dot active';*/
@@ -229,21 +226,27 @@ function _rplg_init_slider(el) {
         );
     }
 
-    el.querySelector('.grw-slider-prev').onclick = function() {
-        scrollPrev(1);
-        setTimeout(dotsinit, 200);
-        if (swipeTimout) {
-            clearInterval(swipeTimout);
-        }
-    };
+    var prev = el.querySelector('.grw-slider-prev');
+    if (prev) {
+        prev.onclick = function() {
+            scrollPrev(1);
+            setTimeout(dotsinit, 200);
+            if (swipeTimout) {
+                clearInterval(swipeTimout);
+            }
+        };
+    }
 
-    el.querySelector('.grw-slider-next').onclick = function() {
-        scrollNext(1);
-        setTimeout(dotsinit, 200);
-        if (swipeTimout) {
-            clearInterval(swipeTimout);
-        }
-    };
+    var next = el.querySelector('.grw-slider-next');
+    if (next) {
+        next.onclick = function() {
+            scrollNext(1);
+            setTimeout(dotsinit, 200);
+            if (swipeTimout) {
+                clearInterval(swipeTimout);
+            }
+        };
+    }
 
     function swipe() {
         var dt = 400;
@@ -258,15 +261,15 @@ function _rplg_init_slider(el) {
     }
 }
 
-function rplg_init(el, layout) {
+function grw_init(el, layout) {
     _rplg_timeago(document.querySelectorAll('.wpac [data-time]'));
     _rplg_read_more();
     _rplg_init_blazy(10);
     if (el && layout == 'slider') {
-        _rplg_init_slider(el);
+        _grw_init_slider(el);
     }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    rplg_init();
+    grw_init();
 });

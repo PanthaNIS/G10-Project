@@ -1,6 +1,11 @@
 Changelog
 =========
 
+#### 1.4.9 - January 3 2022
+- Add Flag Customer Orders
+- Fix phone numbers should now be synced successfully and contacts will only be subscribed if the 'acceptance' checkbox is checked
+- Fix error after Order Completed Trigger
+
 #### 1.4.8 - December 1 2021
 - Redirect to main Creativ Email templates page when user has abandoned cart template deactivated.
 - Fix sync error with contact form 7

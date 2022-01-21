@@ -122,8 +122,6 @@
 				forminator_selector: self.forminator_selector,
 				chart_design: self.settings.chart_design,
 				chart_options: self.settings.chart_options,
-				fadeout: self.settings.fadeout,
-				fadeout_time: self.settings.fadeout_time,
 				has_quiz_loader: self.settings.has_quiz_loader,
 				has_loader: self.settings.has_loader,
 				loader_label: self.settings.loader_label,
@@ -194,7 +192,6 @@
 					paymentEl: stripe_payment,
 					paymentRequireSsl: self.settings.payment_require_ssl,
 					generalMessages: self.settings.general_messages,
-					fadeout_time: self.settings.fadeout_time,
 					has_loader: self.settings.has_loader,
 					loader_label: self.settings.loader_label,
 				});
@@ -1111,6 +1108,40 @@
 			}
 		},
 
+		renderHcaptcha: function ( captcha_field ) {
+			var self = this;
+			//render hcaptcha only if not rendered
+			if (typeof $( captcha_field ).data( 'forminator-hcaptcha-widget' ) === 'undefined') {
+				var size = $( captcha_field ).data( 'size' ),
+				    data = {
+					    sitekey: $( captcha_field ).data( 'sitekey' ),
+					    theme: $( captcha_field ).data( 'theme' ),
+					    size: size
+				    };
+
+				if ( size === 'invisible' ) {
+					data.callback = function ( token ) {
+						$( self.element ).trigger( 'submit.frontSubmit' );
+					};
+				} else {
+					data.callback = function () {
+						$( captcha_field ).parent( '.forminator-col' )
+							.removeClass( 'forminator-has_error' )
+							.remove( '.forminator-error-message' );
+					};
+				}
+
+				if ( data.sitekey !== "" ) {
+					// noinspection Annotator
+					var widgetId = hcaptcha.render( captcha_field, data );
+					// mark as rendered
+					$( captcha_field ).data( 'forminator-hcaptcha-widget', widgetId );
+					// this.addCaptchaAria( captcha_field );
+					// this.responsive_captcha();
+				}
+			}
+		},
+
 		addCaptchaAria: function ( captcha_field ) {
 			var gRecaptchaResponse = $( captcha_field ).find( '.g-recaptcha-response' ),
 				gRecaptcha = $( captcha_field ).find( '>div' );
@@ -1243,7 +1274,7 @@
 // noinspection JSUnusedGlobalSymbols
 var forminator_render_captcha = function () {
 	// TODO: avoid conflict with another plugins that provide recaptcha
-	//  notify forminator front that grecaptcha loaded. anc can be used
+	//  notify forminator front that grecaptcha has loaded and can be used
 	jQuery('.forminator-g-recaptcha').each(function () {
 		// find closest form
 		var thisCaptcha = jQuery(this),
@@ -1254,6 +1285,26 @@ var forminator_render_captcha = function () {
 				var forminatorFront = form.data( 'forminatorFront' );
 				if (typeof forminatorFront !== 'undefined') {
 					forminatorFront.renderCaptcha( thisCaptcha[0] );
+				}
+			}, 100 );
+		}
+	});
+};
+
+// noinspection JSUnusedGlobalSymbols
+var forminator_render_hcaptcha = function () {
+	// TODO: avoid conflict with another plugins that provide hcaptcha
+	//  notify forminator front that hcaptcha has loaded and can be used
+	jQuery('.forminator-hcaptcha').each(function () {
+		// find closest form
+		var thisCaptcha = jQuery(this),
+			form 		= thisCaptcha.closest('form');
+
+		if (form.length > 0) {
+			window.setTimeout( function() {
+				var forminatorFront = form.data( 'forminatorFront' );
+				if (typeof forminatorFront !== 'undefined') {
+					forminatorFront.renderHcaptcha( thisCaptcha[0] );
 				}
 			}, 100 );
 		}

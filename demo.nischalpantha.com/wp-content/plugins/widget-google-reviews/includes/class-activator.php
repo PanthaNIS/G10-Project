@@ -81,9 +81,14 @@ class Activator {
     }
 
     private function exist_install($current_version, $last_active_version) {
+        $this->update_db($last_active_version);
+    }
+
+    public function update_db($last_active_version) {
         global $wpdb;
 
         switch($last_active_version) {
+
             case version_compare($last_active_version, '1.8.2', '<'):
                 $wpdb->query("ALTER TABLE " . $wpdb->prefix . Database::BUSINESS_TABLE . " ADD review_count INTEGER");
                 $place_ids = $wpdb->get_col("SELECT place_id FROM " . $wpdb->prefix . Database::BUSINESS_TABLE . " WHERE rating > 0 LIMIT 5");
@@ -91,6 +96,7 @@ class Activator {
                     //TODO: grw_refresh_reviews(array($place_id));
                 }
             break;
+
             case version_compare($last_active_version, '1.8.7', '<'):
                 $row = $wpdb->get_results(
                     "SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS " .
@@ -100,14 +106,15 @@ class Activator {
                     $wpdb->query("ALTER TABLE " . $wpdb->prefix . Database::REVIEW_TABLE . " ADD hide VARCHAR(1) DEFAULT '' NOT NULL");
                 }
             break;
+
             case version_compare($last_active_version, '2.0.1', '<'):
                 $grw_auth_code = get_option('grw_auth_code');
                 if (!$grw_auth_code || strlen($grw_auth_code) == 0) {
                     update_option('grw_auth_code', $this->random_str(127));
                 }
             break;
-            case version_compare($last_active_version, '2.0.2', '<'):
 
+            case version_compare($last_active_version, '2.0.2', '<'):
                 if (!function_exists('drop_index') || !function_exists('dbDelta')) {
                     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                 }
@@ -130,7 +137,6 @@ class Activator {
                         return true;
                     }
                 }
-
                 if (drop_index($wpdb->prefix . Database::REVIEW_TABLE, 'grp_google_review_hash')) {
                     maybe_drop_column(
                         $wpdb->prefix . Database::REVIEW_TABLE,
@@ -138,7 +144,6 @@ class Activator {
                         "ALTER TABLE " . $wpdb->prefix . Database::REVIEW_TABLE . " DROP COLUMN hash"
                     );
                 }
-
                 $sql = "CREATE TABLE IF NOT EXISTS " . $wpdb->prefix . "grp_google_stats (".
                     "id BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,".
                     "google_place_id BIGINT(20) UNSIGNED NOT NULL,".
@@ -148,7 +153,6 @@ class Activator {
                     "PRIMARY KEY (`id`),".
                     "INDEX grp_google_place_id (`google_place_id`)".
                     ") " . $wpdb->get_charset_collate() . ";";
-
                 dbDelta($sql);
             break;
         }

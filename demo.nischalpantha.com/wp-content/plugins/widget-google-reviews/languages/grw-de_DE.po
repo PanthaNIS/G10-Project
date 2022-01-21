@@ -28,3 +28,6 @@ msgstr "Nächste Bewertungen"
 
 msgid "Based on %s reviews"
 msgstr "Basierend auf %s Rezensionen"
+
+msgid "Ready to review?"
+msgstr "Bereit zu bewerten?"

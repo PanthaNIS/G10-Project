@@ -823,6 +823,11 @@ class CheckoutManager
         // Line Items / Products array for the expected endpoint
         foreach ($order->get_items() as $itemsKey => $item) {
             $product = $item->get_product();
+
+            if (empty($product)) {
+                continue;
+            }
+
             $item_meta = $item->get_formatted_meta_data();
 
             foreach ($item_meta as $key => $values) {
@@ -875,11 +880,11 @@ class CheckoutManager
             $requestItem->order->line_items[] = array(
                 'product_id' => $item->get_product_id(),
                 'item_meta' => $item->get_formatted_meta_data(),
-                'subtotal' => wc_format_decimal($order->get_line_subtotal($item, false, false), $dp),
-                'subtotal_tax' => wc_format_decimal($item->get_subtotal_tax(), $dp),
-                'total' => wc_format_decimal($order->get_line_total($item, false, false), $dp),
-                'total_tax' => wc_format_decimal($item->get_total_tax(), $dp),
-                'price' => wc_format_decimal($order->get_item_total($item, false, false), $dp),
+                'subtotal' => wc_format_decimal($order->get_line_subtotal($item, false, false), $decimal_point),
+                'subtotal_tax' => wc_format_decimal($item->get_subtotal_tax(), $decimal_point),
+                'total' => wc_format_decimal($order->get_line_total($item, false, false), $decimal_point),
+                'total_tax' => wc_format_decimal($item->get_total_tax(), $decimal_point),
+                'price' => wc_format_decimal($order->get_item_total($item, false, false), $decimal_point),
                 'quantity' => $item->get_quantity(),
                 'tax_class' => $item->get_tax_class(),
                 'name' => $item->get_name(),

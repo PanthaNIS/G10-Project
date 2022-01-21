@@ -76,10 +76,12 @@ foreach ($feeds as $feed) {
 ?>
 
 <?php
-$places = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . Database::BUSINESS_TABLE);
-$places_error = $wpdb->last_error;
-$reviews = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . Database::REVIEW_TABLE);
-$reviews_error = $wpdb->last_error; ?>
+$places        = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . Database::BUSINESS_TABLE);
+$places_error  = $wpdb->last_error;
+$reviews       = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . Database::REVIEW_TABLE);
+$reviews_error = $wpdb->last_error;
+$stats         = $wpdb->get_results("SELECT * FROM " . $wpdb->prefix . Database::STATS_TABLE);
+$stats_error   = $wpdb->last_error; ?>
 
 ------------ Places ------------
 
@@ -92,7 +94,13 @@ $reviews_error = $wpdb->last_error; ?>
 
 <?php if (isset($reviews_error) && strlen($reviews_error) > 0) { echo 'DB Reviews error: ' . $reviews_error; } ?>
 
-<?php echo print_r($reviews);
+<?php echo print_r($reviews); ?>
+
+------------ Stats ------------
+
+<?php if (isset($stats_error) && strlen($stats_error) > 0) { echo 'DB Stats error: ' . $stats_error; } ?>
+
+<?php echo print_r($stats);
 
     }
 

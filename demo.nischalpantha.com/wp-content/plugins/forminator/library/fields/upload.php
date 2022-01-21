@@ -572,7 +572,6 @@ class Forminator_Upload extends Forminator_Field {
 						$unique_file_name = wp_unique_filename( $upload_dir['path'], $file_name );
 						$exploded_name    = explode( '/', $unique_file_name );
 						$filename         = end( $exploded_name );
-						chmod( $upload_dir['path'], 0777 );
 						if ( wp_is_writable( $upload_dir['path'] ) ) {
 							$file_path = $upload_dir['path'] . '/' . trim( sanitize_file_name( $filename ) );
 							$file_url  = $upload_dir['url'] . '/' . trim( sanitize_file_name( $filename ) );
@@ -786,5 +785,17 @@ class Forminator_Upload extends Forminator_Field {
 		}
 
 		return $mime_type;
+	}
+
+	/**
+	 * Set permission
+	 *
+	 * @param $path
+	 */
+	public function set_permissions( $path ) {
+		$permission = apply_filters( 'forminator_file_permission', 0755, $path );
+		if ( $permission ) {
+			@chmod( $path, $permission );
+		}
 	}
 }

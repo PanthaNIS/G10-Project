@@ -19,8 +19,8 @@ $section = Forminator_Core::sanitize_text_field( 'section', 'dashboard' );
 				<a href="#" data-nav="data"><?php esc_html_e( 'Data', 'forminator' ); ?></a>
 			</li>
 
-			<li class="sui-vertical-tab <?php echo esc_attr( 'recaptcha' === $section ? 'current' : '' ); ?>">
-				<a href="#" data-nav="recaptcha"><?php esc_html_e( 'Google reCAPTCHA', 'forminator' ); ?></a>
+			<li class="sui-vertical-tab <?php echo esc_attr( 'captcha' === $section ? 'current' : '' ); ?>">
+				<a href="#" data-nav="captcha"><?php esc_html_e( 'CAPTCHA', 'forminator' ); ?></a>
 			</li>
 
 			<li class="sui-vertical-tab <?php echo esc_attr( 'import' === $section ? 'current' : '' ); ?>">
@@ -41,7 +41,7 @@ $section = Forminator_Core::sanitize_text_field( 'section', 'dashboard' );
 			<option value="dashboard"><?php esc_html_e( 'General', 'forminator' ); ?></option>
 			<option value="accessibility"><?php esc_html_e( 'Accessibility', 'forminator' ); ?></option>
 			<option value="data"><?php esc_html_e( 'Data', 'forminator' ); ?></option>
-			<option value="recaptcha"><?php esc_html_e( 'Google reCAPTCHA', 'forminator' ); ?></option>
+			<option value="captcha"><?php esc_html_e( 'CAPTCHA', 'forminator' ); ?></option>
 			<option value="import"><?php esc_html_e( 'Import', 'forminator' ); ?></option>
 			<option value="submissions"><?php esc_html_e( 'Submissions', 'forminator' ); ?></option>
 			<option value="payments"><?php esc_html_e( 'Payments', 'forminator' ); ?></option>

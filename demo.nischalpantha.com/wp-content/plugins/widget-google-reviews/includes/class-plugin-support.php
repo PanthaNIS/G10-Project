@@ -54,32 +54,18 @@ class Plugin_Support {
                             </div>
                             <br>
                             <div class="grw-socials">
-                                <div id="fb-root"></div>
-                                <script>(function(d, s, id) {
-                                  var js, fjs = d.getElementsByTagName(s)[0];
-                                  if (d.getElementById(id)) return;
-                                  js = d.createElement(s); js.id = id;
-                                  js.src = "//connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v2.6&appId=1501100486852897";
-                                  fjs.parentNode.insertBefore(js, fjs);
-                                }(document, 'script', 'facebook-jssdk'));</script>
+                                <script src="https://apis.google.com/js/platform.js"></script>
+                                <div class="g-ytsubscribe" data-channelid="UCfTAPWvWJkGRVhZ1AN5DtvA" data-layout="default" data-count="default"></div>
+
+                                <div id="fb-root" style="display:inline-block"></div>
+                                <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v12.0&appId=276175796521349&autoLogAppEvents=1" nonce="MYsLkxjF"></script>
                                 <div class="fb-like" data-href="https://richplugins.com/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="false"></div>
+
                                 <a href="https://twitter.com/richplugins?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @richplugins</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                                <div class="g-plusone" data-size="medium" data-annotation="inline" data-width="200" data-href="https://plus.google.com/101080686931597182099"></div>
-                                <script type="text/javascript">
-                                    window.___gcfg = { lang: 'en-US' };
-                                    (function () {
-                                        var po = document.createElement('script');
-                                        po.type = 'text/javascript';
-                                        po.async = true;
-                                        po.src = 'https://apis.google.com/js/plusone.js';
-                                        var s = document.getElementsByTagName('script')[0];
-                                        s.parentNode.insertBefore(po, s);
-                                    })();
-                                </script>
                             </div>
                         </div>
                         <div class="grw-flex-col">
-                            <iframe width="100%" height="315" src="https://www.youtube.com/embed/Wbst-UBgXXk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            <iframe width="100%" height="315" src="https://www.youtube.com/embed/1s7mZUSo3eg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>

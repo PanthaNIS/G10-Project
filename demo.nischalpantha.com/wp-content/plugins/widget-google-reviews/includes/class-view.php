@@ -98,7 +98,7 @@ class View {
                 </div>
                 <?php } ?>
             </div>
-            <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="js_loader" onload="rplg_init(this, 'slider')" width="1px" height="1px" style="display:none">
+            <?php $this->js_loader('grw_init', '\'slider\''); ?>
         </div>
         <?php
     }
@@ -120,26 +120,11 @@ class View {
             <?php }
             if (!$options->hide_reviews) { ?>
             <div class="wp-google-content-inner">
-                <?php
-                $this->grw_place_reviews(
-                    $business,
-                    $reviews,
-                    $business->id,
-                    $options->text_size,
-                    $options->pagination,
-                    $options->reviewer_avatar_size,
-                    $options->open_link,
-                    $options->nofollow_link,
-                    $options->lazy_load_img,
-                    $options->google_def_rev_link,
-                    $is_admin
-                );
-                ?>
+                <?php $this->grw_place_reviews($reviews, $options, $is_admin); ?>
             </div>
             <?php } ?>
         </div>
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="js_loader" onload="rplg_init()" style="display:none">
-        <?php
+        <?php $this->js_loader('grw_init');
     }
 
     private function render_badge($businesses, $reviews, $options) {
@@ -193,27 +178,14 @@ class View {
             <div class="wp-google-body"></div>
             <div class="wp-google-content">
                 <div class="wp-google-content-inner">
-                    <?php
-                    $this->grw_place_reviews(
-                        $businesses[0],
-                        $reviews,
-                        $businesses[0]->id,
-                        $options->text_size,
-                        $options->pagination,
-                        $options->reviewer_avatar_size,
-                        $options->open_link,
-                        $options->nofollow_link,
-                        $options->lazy_load_img,
-                        $options->google_def_rev_link
-                    ); ?>
+                    <?php $this->grw_place_reviews($reviews, $options); ?>
                 </div>
             </div>
             <div class="wp-google-footer">
                 <img src="<?php echo GRW_ASSETS_URL; ?>img/powered_by_google_on_<?php if ($options->dark_theme) { ?>non_<?php } ?>white.png" alt="powered by Google" width="144" height="18" title="powered by Google">
             </div>
         </div>
-        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" onload="(function(el) { document.addEventListener('DOMContentLoaded', function() { grw_badge_init(el); }); })(this.parentNode);" style="display:none">
-        <?php
+        <?php $this->js_loader('grw_badge_init');
     }
 
     function grw_place($rating, $place, $place_img, $reviews, $dark_theme, $hide_based_on, $show_powered = true) {
@@ -243,29 +215,44 @@ class View {
         <?php
     }
 
-    function grw_place_reviews($place, $reviews, $place_id, $text_size, $pagination, $reviewer_avatar_size, $open_link, $nofollow_link, $lazy_load_img, $google_def_rev_link, $is_admin = false) {
+    function grw_place_reviews($reviews, $options, $is_admin = false) {
         ?>
         <div class="wp-google-reviews">
         <?php
+        $place_id = null;
+        $place_url = null;
+
         $hr = false;
         if (count($reviews) > 0) {
             $i = 0;
             foreach ($reviews as $review) {
-                if ($pagination > 0 && $pagination <= $i++) {
+                if (!$place_id) {
+                    $place_id = $review->biz_id;
+                    $place_url = $review->biz_url;
+                }
+                if ($options->pagination > 0 && $options->pagination <= $i++) {
                     $hr = true;
                 }
-                $this->grw_place_review($review, $hr, $text_size, $reviewer_avatar_size, $open_link, $nofollow_link, $lazy_load_img, $is_admin);
+                $this->grw_place_review(
+                    $review, $hr,
+                    $options->text_size,
+                    $options->reviewer_avatar_size,
+                    $options->open_link,
+                    $options->nofollow_link,
+                    $options->lazy_load_img,
+                    $is_admin
+                );
             }
         }
         ?>
         </div>
-        <?php if ($pagination > 0 && $hr) { ?>
-        <a class="wp-google-url" href="#" onclick="return rplg_next_reviews.call(this, 'google', <?php echo $pagination; ?>);">
+        <?php if ($options->pagination > 0 && $hr) { ?>
+        <a class="wp-google-url" href="#" onclick="return rplg_next_reviews.call(this, 'google', <?php echo $options->pagination; ?>);">
             <?php echo __('Next Reviews', 'grw'); ?>
         </a>
         <?php
         } else {
-            $reviews_link = $google_def_rev_link ? $place->url : 'https://search.google.com/local/reviews?placeid=' . $place_id;
+            $reviews_link = $options->google_def_rev_link ? $place_url : 'https://search.google.com/local/reviews?placeid=' . $place_id;
             $this->grw_anchor($reviews_link, 'wp-google-url', __('See All Reviews', 'grw'), true, true);
         }
     }
@@ -382,6 +369,10 @@ class View {
 
     function grw_image($src, $alt, $lazy, $def_ava = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7', $atts = '') {
         ?><img <?php if ($lazy) { ?>src="<?php echo $def_ava; ?>" data-<?php } ?>src="<?php echo $src; ?>" class="rplg-review-avatar<?php if ($lazy) { ?> rplg-blazy<?php } ?>" alt="<?php echo $alt; ?>" width="50" height="50" title="<?php echo $alt; ?>" onerror="if(this.src!='<?php echo $def_ava; ?>')this.src='<?php echo $def_ava; ?>';" <?php echo $atts; ?>><?php
+    }
+
+    private function js_loader($func, $data = '') {
+        ?><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="js_loader" onload="(function(el, data) {var f = function() { window.<?php echo $func; ?> ? <?php echo $func; ?>(el, data) : setTimeout(f, 400) }; f() })(this<?php if (strlen($data) > 0) { ?>, <?php echo str_replace('"', '\'', $data); } ?>);" data-exec="false" width="1" height="1" style="display:none"><?php
     }
 
     function grw_trim_text($text, $size) {

@@ -5,7 +5,7 @@
  * Text Domain: popup-anything-on-click
  * Description: Display a modal popup on a page load or by clicking link, image or button. Also work with Gutenberg shortcode block.
  * Domain Path: /languages/
- * Version: 2.0.7
+ * Version: 2.0.8
  * Author: WP OnlineSupport, Essential Plugin
  * Author URI: https://www.essentialplugin.com/
 */
@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 if( ! defined( 'POPUPAOC_VERSION' ) ) {
-	define( 'POPUPAOC_VERSION', '2.0.7' ); // Version of plugin
+	define( 'POPUPAOC_VERSION', '2.0.8' ); // Version of plugin
 }
 
 if( ! defined( 'POPUPAOC_DIR' ) ) {

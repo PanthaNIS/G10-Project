@@ -885,7 +885,7 @@
             ;
 
 			this.restore_value(relation, e);
-			this.textareaFix(relation, e);
+			this.textareaFix(this.$el, relation, e);
 
 			sub_relations.forEach(function (sub_relation) {
 				var logic = self.get_field_logic(sub_relation),
@@ -945,9 +945,8 @@
 		},
 
         // Fixes textarea bug with labels when using Material design style
-		textareaFix: function (relation, e){
-			var form          = $( '#' + e.target.form.id ),
-                label         = $( '#' + relation + ' .forminator-label' )
+		textareaFix: function (form ,relation, e){
+			var label = $( '#' + relation + ' .forminator-label' )
             ;
 
             if ( relation.includes( 'textarea' ) && form.hasClass( 'forminator-design--material' ) && 0 < label.length ) {

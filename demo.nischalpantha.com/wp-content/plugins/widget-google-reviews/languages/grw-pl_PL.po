@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.2\n"
 "Project-Id-Version: \n"
 "POT-Creation-Date: \n"
 "PO-Revision-Date: \n"
@@ -28,3 +28,9 @@ msgstr "Następne Opinie"
 
 msgid "Write a review"
 msgstr "Napisz Opinię"
+
+msgid "Based on %s reviews"
+msgstr "Na podstawie %s opinii"
+
+msgid "Ready to review?"
+msgstr "Chcesz dodać opinię?"

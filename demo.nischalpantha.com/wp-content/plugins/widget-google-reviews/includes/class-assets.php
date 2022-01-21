@@ -42,7 +42,22 @@ class Assets {
                 add_action('wp_enqueue_scripts', array($this, 'enqueue_public_styles'));
                 add_action('wp_enqueue_scripts', array($this, 'enqueue_public_scripts'));
             }
+            add_filter('script_loader_tag', array($this, 'add_async'), 10, 2);
         }
+    }
+
+    function add_async($tag, $handle) {
+        $js_assets = array(
+            'grw-admin-main-js'    => 'js/admin-main',
+            'grw-admin-builder-js' => 'js/admin-builder',
+            'grw-public-time-js'   => 'js/public-time',
+            'grw-public-blazy-js'  => 'js/public-blazy.min',
+            'grw-public-main-js'   => 'js/public-main',
+        );
+        if (isset($handle) && array_key_exists($handle, $js_assets)) {
+            return str_replace(' src', ' defer="defer" src', $tag);
+        }
+        return $tag;
     }
 
     public function register_styles() {

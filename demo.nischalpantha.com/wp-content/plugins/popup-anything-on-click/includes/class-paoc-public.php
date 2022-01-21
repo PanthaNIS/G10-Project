@@ -76,14 +76,14 @@ class POPUPAOC_Public {
 	 * 
 	 * @since 2.0.5
 	 */
-	function popupaoc_render_nested_popup() {
+	function popupaoc_render_nested_popup( $paoc_global_diff = array() ) {
 
 		global $paoc_popup_data;
 
 		// Check for Popup( Simple Link, Button & Image )
-		if( ! empty( $paoc_popup_data ) ) {
+		if( ! empty( $paoc_global_diff ) ) {
 
-			foreach ( $paoc_popup_data as $popup_id => $popup_data ) {
+			foreach ( $paoc_global_diff as $popup_id => $popup_data ) {
 
 				// Continue already rendered popup
 				if ( ! empty( $popup_data['render'] ) ) {
@@ -104,7 +104,12 @@ class POPUPAOC_Public {
 	 */
 	function popupaoc_create_popup( $popup_id = 0 ) {
 
-		global $paoc_preview, $paoc_design_sett, $paoc_behaviour_sett, $paoc_advance_sett, $paoc_custom_css, $paoc_popup_post;
+		global $paoc_preview, $paoc_design_sett, $paoc_behaviour_sett, $paoc_advance_sett, $paoc_custom_css, $paoc_popup_post, $paoc_popup_data;
+
+		$paoc_popup_data = $paoc_popup_data ? $paoc_popup_data : array();
+
+		// Store popup global data in temp 1 variable before `do_shortcode`
+		$paoc_global_temp_1 = $paoc_popup_data;
 
 		// If Popup Preview is there
 		if( $paoc_preview == 1 ) {
@@ -306,8 +311,16 @@ class POPUPAOC_Public {
 			include( $design_file_path );
 		}
 
+		// Store global popup data in temp 2 variable after `do_shortcode`
+		$paoc_global_temp_2	= $paoc_popup_data;
+
+		// Temp 1 & Temp 2 array difference
+		$paoc_global_diff = array_diff_key( $paoc_global_temp_2, $paoc_global_temp_1 );
+
 		// Render nested popup
-		$this->popupaoc_render_nested_popup();
+		if( ! empty( $paoc_global_diff ) ) {
+			$this->popupaoc_render_nested_popup( $paoc_global_diff );
+		}
 
 		// Flush some global var
 		$paoc_popup_post = '';

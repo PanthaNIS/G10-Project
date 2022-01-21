@@ -3,6 +3,7 @@
 
 namespace CreativeMail;
 
+use CreativeMail\Helpers\OptionsHelper;
 use CreativeMail\Managers\AdminManager;
 use CreativeMail\Managers\ApiManager;
 use CreativeMail\Managers\CheckoutManager;
@@ -67,9 +68,11 @@ class CreativeMail
         if ($enabled) {
             $this->checkout_manager->add_hooks();
         }
-        // adding WC hook to catch the orders as soon as order is completed
-        if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
-            $this->checkout_manager->add_order_completed_wc_hooks();
+
+        if (!empty(OptionsHelper::get_instance_id())) {
+            if (in_array('woocommerce/woocommerce.php', apply_filters('active_plugins', get_option('active_plugins')))) {
+                $this->checkout_manager->add_order_completed_wc_hooks();
+            }
         }
     }
 
@@ -120,7 +123,6 @@ class CreativeMail
 
     public static function get_instance()
     {
-
         if (self::$instance === null) {
             self::$instance = new CreativeMail();
         }

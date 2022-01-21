@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => '1.6',
-        'version' => '1.6.0.0',
+        'pretty_version' => '1.6.1',
+        'version' => '1.6.1.0',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'faad1a9ce8f69844adee847badc0b6535d196444',
+        'reference' => '8c172a76dd68372e7a6f62994211459e406dbe4a',
         'name' => 'bluehost/mojo-marketplace-wp-plugin',
         'dev' => false,
     ),
@@ -65,12 +65,12 @@
             'dev_requirement' => false,
         ),
         'bluehost/mojo-marketplace-wp-plugin' => array(
-            'pretty_version' => '1.6',
-            'version' => '1.6.0.0',
+            'pretty_version' => '1.6.1',
+            'version' => '1.6.1.0',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'faad1a9ce8f69844adee847badc0b6535d196444',
+            'reference' => '8c172a76dd68372e7a6f62994211459e406dbe4a',
             'dev_requirement' => false,
         ),
         'endurance/wp-module-data' => array(

@@ -133,6 +133,16 @@ class Plugin_Settings {
                                 <input type="submit" name="debug_mode" class="button" value="<?php echo $grw_debug_mode ? 'Disable' : 'Enable'; ?>" />
                             </div>
                         </div>
+                        <div class="grw-field">
+                            <div class="grw-field-label">
+                                <label>Execute db update manually</label>
+                            </div>
+                            <div class="wp-review-field-option">
+                                <?php wp_nonce_field('grw-wpnonce_update_db', 'grw-form_nonce_update_db'); ?>
+                                <input type="submit" name="update_db" class="button" />
+                                <input type="text" name="update_db_ver" style="width:94px;height:22px" placeholder="version" />
+                            </div>
+                        </div>
                     </form>
                 </div>
 

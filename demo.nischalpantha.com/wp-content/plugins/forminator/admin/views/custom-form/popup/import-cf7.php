@@ -33,7 +33,7 @@ $image_empty2x = forminator_plugin_url() . 'assets/images/forminator-summary@2x.
 						<p class="sui-description" style="margin-bottom: 10px; color: #333; font-weight: bold;"><?php esc_html_e( 'Unsupported form fields and settings', 'forminator' ); ?></p>
 
 						<ol class="fui-dismiss-list">
-							<li><?php printf( esc_html__( "%1\$s1. Quiz field:%2\$s Forminator doesn't have a built-in quiz field, however, you can enable Google's reCAPTCHA v3 and Honeypot protection on your imported forms.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
+							<li><?php printf( esc_html__( "%1\$s1. Quiz field:%2\$s Forminator doesn't have a built-in quiz field, however, you can enable CAPTCHA and Honeypot protection on your imported forms.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
 							<li><?php printf( esc_html__( "%1\$s2. ConstantContact:%2\$s Forminator doesn't integrate directly with ConstantContact. However, you can use %3\$sZapier integration%4\$s to send your leads to ConstantContact.", 'forminator' ), '<strong>', '</strong>', '<a href="https://wpmudev.com/blog/zapier-wordpress-form-integrations/" target="_blank">', '</a>' ); ?></li>
 							<li><?php printf( esc_html__( "%1\$s3. reCAPTCHA v3 integration:%2\$s At this stage, Forminator can't import your existing reCAPTCHA integration. You can set this up manually on your imported forms once they are transferred.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
 							<li><?php printf( esc_html__( "%1\$s4. Additional settings:%2\$s Forminator doesn't support CF7’s additional form settings.", 'forminator' ), '<strong>', '</strong>' ); ?></li>
