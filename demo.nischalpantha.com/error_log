@@ -9,3 +9,18 @@ Stack trace:
 #6 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(NULL, Array)
 #7 /home2/nischtha/demo.nischalpantha.com/wp-includes/pl in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/optinmonster/OMAPI/Actions.php on line 203
 [14-Dec-2021 05:14:41 UTC] PHP Warning:  mkdir(): File exists in /home2/nischtha/demo.nischalpantha.com/wp-content/mu-plugins/endurance-page-cache.php on line 641
+[23-Jan-2022 12:12:46 UTC] PHP Fatal error:  Uncaught Error: Class 'Elementor\Modules\AdminBar\Module' not found in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/elementor/core/modules-manager.php:53
+Stack trace:
+#0 /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/elementor/includes/plugin.php(719): Elementor\Core\Modules_Manager->__construct()
+#1 /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/elementor/includes/plugin.php(636): Elementor\Plugin->init_components()
+#2 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(303): Elementor\Plugin->init('')
+#3 /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters(NULL, Array)
+#4 /home2/nischtha/demo.nischalpantha.com/wp-includes/plugin.php(470): WP_Hook->do_action(Array)
+#5 /home2/nischtha/demo.nischalpantha.com/wp-settings.php(578): do_action('init')
+#6 /home2/nischtha/demo.nischalpantha.com/wp-config.php(96): require_once('/home2/nischtha...')
+#7 /home2/nischtha/demo.nischalpantha.com/wp-load.php(50): require_once('/ in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/elementor/core/modules-manager.php on line 53
+[23-Jan-2022 12:12:46 UTC] PHP Fatal error:  Uncaught Error: Class 'Elementor\Core\Logger\Items\PHP' not found in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/elementor/core/logger/manager.php:50
+Stack trace:
+#0 [internal function]: Elementor\Core\Logger\Manager->shutdown()
+#1 {main}
+  thrown in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/elementor/core/logger/manager.php on line 50
