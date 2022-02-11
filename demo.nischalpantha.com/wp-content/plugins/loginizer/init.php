@@ -5,7 +5,7 @@ if(!function_exists('add_action')){
 	exit;
 }
 
-define('LOGINIZER_VERSION', '1.6.8');
+define('LOGINIZER_VERSION', '1.7.0');
 define('LOGINIZER_DIR', dirname(LOGINIZER_FILE));
 define('LOGINIZER_URL', plugins_url('', LOGINIZER_FILE));
 define('LOGINIZER_PRO_URL', 'https://loginizer.com/features#compare');
@@ -388,6 +388,8 @@ $site_name';
 	$loginizer['captcha_wc_checkout'] = !isset($options['captcha_wc_checkout']) ? 1 : $options['captcha_wc_checkout'];
 	
 	$loginizer['captcha_no_google'] =  !isset($options['captcha_no_google']) ? 0 : $options['captcha_no_google'];
+	$loginizer['captcha_domain'] = empty($options['captcha_domain']) ? 'www.google.com' : $options['captcha_domain'];
+	
 	$loginizer['captcha_text'] =  empty($options['captcha_text']) ? __('Math Captcha', 'loginizer') : $options['captcha_text'];
 	$loginizer['captcha_time'] =  empty($options['captcha_time']) ? 300 : $options['captcha_time'];
 	$loginizer['captcha_words'] =  !isset($options['captcha_words']) ? 0 : $options['captcha_words'];
@@ -809,6 +811,13 @@ function loginizer_login_failed($username, $is_2fa = ''){
 			// Do we need to email admin ?
 			if(!empty($loginizer['notify_email']) && $lockout >= $loginizer['notify_email']){
 				
+				$lockout_time = $loginizer['lockout_time'];
+				
+				if($lockout >= $loginizer['max_lockouts']){
+					// extended lockout is in hours so we have to convert to minute
+					$lockout_time = $loginizer['lockouts_extend'];
+				}
+				
 				$sitename = lz_is_multisite() ? get_site_option('site_name') : get_option('blogname');
 				$mail = array();
 				$mail['to'] = $loginizer['notify_email_address'];	
@@ -820,7 +829,7 @@ function loginizer_login_failed($username, $is_2fa = ''){
 
 Last '.$fail_type.' Attempt : '.date('d/M/Y H:i:s P', time()).'
 Last User Attempt : '.$username.'
-IP has been blocked until : '.date('d/M/Y H:i:s P', time() + $loginizer['lockout_time']).'
+IP has been blocked until : '.date('d/M/Y H:i:s P', time() + $lockout_time).'
 
 Regards,
 Loginizer';
@@ -1250,9 +1259,16 @@ function loginizer_page_dashboard_T(){
 	loginizer_page_header('Dashboard');
 ?>
 <style>
-.welcome-panel{
-	margin: 0px;
-	padding: 10px;
+.lz-welcome-panel{
+	border: 1px solid #c3c4c7;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	background: #fff;
+	padding:10px;
+}
+
+.lz-welcome-panel-content{
+	display:inline;
+	vertical-align:middle;
 }
 
 input[type="text"], textarea, select {
@@ -1277,12 +1293,10 @@ input[type="text"], textarea, select {
 	
 	loginizer_newsletter_subscribe();
 	
-	$hide_announcement = get_option('loginizer_no_announcement');
-	if(empty($hide_announcement)){
-		echo '<div id="message" class="welcome-panel">'. __('<a href="https://loginizer.com/blog/loginizer-has-been-acquired-by-softaculous/" target="_blank" style="text-decoration:none;">We are excited to announce that we have joined forces with Softaculous and have been acquired by them 😊. Read full announcement here.</a>', 'loginizer'). '<a class="welcome-panel-close" style="top:3px;right:2px;" href="'.menu_page_url('loginizer', false).'&dismiss_announcement=1" aria-label="Dismiss announcement"></a></div><br />';
-	}
-		
-	echo '<div class="welcome-panel">Thank you for choosing Loginizer! Many more features coming soon... &nbsp; Review Loginizer at WordPress &nbsp; &nbsp; <a href="https://wordpress.org/support/view/plugin-reviews/loginizer" class="button button-primary" target="_blank">Add Review</a></div><br />';
+	echo '
+	<div class="lz-welcome-panel">
+		<div class="lz-welcome-panel-content">Thank you for choosing Loginizer! Many more features coming soon... &nbsp; Review Loginizer at WordPress &nbsp; &nbsp; <a href="https://wordpress.org/support/view/plugin-reviews/loginizer" class="button button-primary" target="_blank">Add Review</a></div>
+	</div><br />';
 
 	// Saved ?
 	if(!empty($GLOBALS['lz_saved'])){
@@ -1442,8 +1456,11 @@ lz_ip_method_handle();
 								'/wp-config.php' => array('0444'),
 								'/'.$wp_content => array('0755'),
 								'/'.$wp_content.'/themes' => array('0755'),
-								'/'.$wp_content.'/plugins' => array('0755'),
-								'.htaccess' => array('0444'));
+								'/'.$wp_content.'/plugins' => array('0755'));
+			
+			if(file_exists(ABSPATH.'/.htaccess')){
+				$files_to_check['.htaccess'] = array('0444');
+			}
 			
 			$root = ABSPATH;
 			
@@ -2793,96 +2810,106 @@ function loginizer_page_recaptcha(){
 	// Sizes
 	$lz_env['size']['normal'] = 'Normal';
 	$lz_env['size']['compact'] = 'Compact';
+
+	// reCAPTCHA Domains
+	$lz_env['captcha_domains']['www.google.com'] = 'google.com';
+	$lz_env['captcha_domains']['www.recaptcha.net'] = 'recaptcha.net';
 	
 	if(isset($_POST['save_lz'])){
-		
-		// Google Captcha
-		$option['captcha_type'] = lz_optpost('captcha_type');
-		$option['captcha_key'] = lz_optpost('captcha_key');
-		$option['captcha_secret'] = lz_optpost('captcha_secret');
-		$option['captcha_theme'] = lz_optpost('captcha_theme');
-		$option['captcha_size'] = lz_optpost('captcha_size');
-		$option['captcha_lang'] = lz_optpost('captcha_lang');
-		
-		// No Google Captcha
-		$option['captcha_text'] = lz_optpost('captcha_text');
-		$option['captcha_time'] = (int) lz_optpost('captcha_time');
-		$option['captcha_words'] = (int) lz_optpost('captcha_words');
-		$option['captcha_add'] = (int) lz_optpost('captcha_add');
-		$option['captcha_subtract'] = (int) lz_optpost('captcha_subtract');
-		$option['captcha_multiply'] = (int) lz_optpost('captcha_multiply');
-		$option['captcha_divide'] = (int) lz_optpost('captcha_divide');
-		
-		// Checkboxes
-		$option['captcha_user_hide'] = (int) lz_optpost('captcha_user_hide');
-		$option['captcha_no_css_login'] = (int) lz_optpost('captcha_no_css_login');
-		$option['captcha_login'] = (int) lz_optpost('captcha_login');
-		$option['captcha_lostpass'] = (int) lz_optpost('captcha_lostpass');
-		$option['captcha_resetpass'] = (int) lz_optpost('captcha_resetpass');
-		$option['captcha_register'] = (int) lz_optpost('captcha_register');
-		$option['captcha_comment'] = (int) lz_optpost('captcha_comment');
-		$option['captcha_wc_checkout'] = (int) lz_optpost('captcha_wc_checkout');
-		
-		// Are we to use Math Captcha ?
-		if(isset($_POST['captcha_no_google'])){
+	
+		// Clear captcha
+		if(empty($_POST['captcha_status'])){
 			
-			$option['captcha_no_google'] = 1;
+			// Save the options
+			update_option('loginizer_captcha', '');
 			
-			// Make the checks
-			if(strlen($option['captcha_text']) < 1){
-				$lz_error['captcha_text'] = __('The Captcha key was not submitted', 'loginizer');
-			}
+			// Mark as saved
+			$GLOBALS['lz_cleared'] = true;
 			
 		}else{
 		
-			// Make the checks
-			if(strlen($option['captcha_key']) < 32 || strlen($option['captcha_key']) > 50){
-				$lz_error['captcha_key'] = __('The reCAPTCHA key is invalid', 'loginizer');
+			// Google Captcha
+			$option['captcha_type'] = lz_optpost('captcha_type');
+			$option['captcha_key'] = lz_optpost('captcha_key');
+			$option['captcha_secret'] = lz_optpost('captcha_secret');
+			$option['captcha_theme'] = lz_optpost('captcha_theme');
+			$option['captcha_size'] = lz_optpost('captcha_size');
+			$option['captcha_lang'] = lz_optpost('captcha_lang');
+			$option['captcha_domain'] = lz_optpost('captcha_domain');
+			
+			// No Google Captcha
+			$option['captcha_text'] = lz_optpost('captcha_text');
+			$option['captcha_time'] = (int) lz_optpost('captcha_time');
+			$option['captcha_words'] = (int) lz_optpost('captcha_words');
+			$option['captcha_add'] = (int) lz_optpost('captcha_add');
+			$option['captcha_subtract'] = (int) lz_optpost('captcha_subtract');
+			$option['captcha_multiply'] = (int) lz_optpost('captcha_multiply');
+			$option['captcha_divide'] = (int) lz_optpost('captcha_divide');
+			
+			// Checkboxes
+			$option['captcha_user_hide'] = (int) lz_optpost('captcha_user_hide');
+			$option['captcha_no_css_login'] = (int) lz_optpost('captcha_no_css_login');
+			$option['captcha_login'] = (int) lz_optpost('captcha_login');
+			$option['captcha_lostpass'] = (int) lz_optpost('captcha_lostpass');
+			$option['captcha_resetpass'] = (int) lz_optpost('captcha_resetpass');
+			$option['captcha_register'] = (int) lz_optpost('captcha_register');
+			$option['captcha_comment'] = (int) lz_optpost('captcha_comment');
+			$option['captcha_wc_checkout'] = (int) lz_optpost('captcha_wc_checkout');
+			
+			// Are we to use Math Captcha ?
+			if(!empty($_POST['captcha_status']) && $_POST['captcha_status'] == 2){
+				
+				$option['captcha_no_google'] = 1;
+				
+				// Make the checks
+				if(strlen($option['captcha_text']) < 1){
+					$lz_error['captcha_text'] = __('The Captcha key was not submitted', 'loginizer');
+				}
+				
+			}else{
+			
+				// Make the checks
+				if(strlen($option['captcha_key']) < 32 || strlen($option['captcha_key']) > 50){
+					$lz_error['captcha_key'] = __('The reCAPTCHA key is invalid', 'loginizer');
+				}
+				
+				// Is secret valid ?
+				if(strlen($option['captcha_secret']) < 32 || strlen($option['captcha_secret']) > 50){
+					$lz_error['captcha_secret'] = __('The reCAPTCHA secret is invalid', 'loginizer');
+				}
+				
+				// Is theme valid ?
+				if(empty($lz_env['theme'][$option['captcha_theme']])){
+					$lz_error['captcha_theme'] = __('The reCAPTCHA theme is invalid', 'loginizer');
+				}
+				
+				// Is size valid ?
+				if(empty($lz_env['size'][$option['captcha_size']])){
+					$lz_error['captcha_size'] = __('The reCAPTCHA size is invalid', 'loginizer');
+				}
+				
+				// Is lang valid ?
+				if(empty($lz_env['lang'][$option['captcha_lang']])){
+					$lz_error['captcha_lang'] = __('The reCAPTCHA language is invalid', 'loginizer');
+				}
+
+				if(empty($lz_env['captcha_domains'][$option['captcha_domain']])){
+					$lz_error['captcha_domain'] = __('The reCAPTCHA domain is invalid', 'loginizer');
+				}
+				
 			}
 			
-			// Is secret valid ?
-			if(strlen($option['captcha_secret']) < 32 || strlen($option['captcha_secret']) > 50){
-				$lz_error['captcha_secret'] = __('The reCAPTCHA secret is invalid', 'loginizer');
+			// Is there an error ?
+			if(!empty($lz_error)){
+				return loginizer_page_recaptcha_T();
 			}
 			
-			// Is theme valid ?
-			if(empty($lz_env['theme'][$option['captcha_theme']])){
-				$lz_error['captcha_theme'] = __('The reCAPTCHA theme is invalid', 'loginizer');
-			}
+			// Save the options
+			update_option('loginizer_captcha', $option);
 			
-			// Is size valid ?
-			if(empty($lz_env['size'][$option['captcha_size']])){
-				$lz_error['captcha_size'] = __('The reCAPTCHA size is invalid', 'loginizer');
-			}
-			
-			// Is lang valid ?
-			if(empty($lz_env['lang'][$option['captcha_lang']])){
-				$lz_error['captcha_lang'] = __('The reCAPTCHA language is invalid', 'loginizer');
-			}
-			
+			// Mark as saved
+			$GLOBALS['lz_saved'] = true;
 		}
-		
-		// Is there an error ?
-		if(!empty($lz_error)){
-			return loginizer_page_recaptcha_T();
-		}
-		
-		// Save the options
-		update_option('loginizer_captcha', $option);
-		
-		// Mark as saved
-		$GLOBALS['lz_saved'] = true;
-		
-	}
-	
-	// Clear this
-	if(isset($_POST['clear_captcha_lz'])){
-		
-		// Save the options
-		update_option('loginizer_captcha', '');
-		
-		// Mark as saved
-		$GLOBALS['lz_cleared'] = true;
 		
 	}
 	
@@ -2937,36 +2964,48 @@ input[type="text"], textarea, select {
 		<form action="" method="post" enctype="multipart/form-data" loginizer-premium-only="1">
 		<?php wp_nonce_field('loginizer-options'); ?>
 		<table class="form-table">
+			<tr>
+				<td scope="row" valign="top" style="width:400px !important;"><label for="captcha_status"><b><?php echo __('Captcha Status', 'loginizer'); ?></b></label></td>
+				<td>
+					<select name="captcha_status" id="captcha_status" onchange="lz_captcha_status();">
+						<?php
+							echo '<option '.lz_POSTselect('captcha_status', 0, (empty($loginizer['captcha_key']) && empty($loginizer['captcha_no_google']) ? true : false)).' value="0">'.__('Disabled', 'loginizer').'</value>
+							<option '.lz_POSTselect('captcha_status', 1, (!empty($loginizer['captcha_key']) ? true : false)).' value="1">'.__('Google reCAPTCHA', 'loginizer').'</value>
+							<option '.lz_POSTselect('captcha_status', 2, (!empty($loginizer['captcha_no_google']) ? true : false)).' value="2">'.__('Math Captcha', 'loginizer').'</value>';
+						?>
+					</select>
+				</td>
+			</tr>
 			<tr class="lz_google_cap">
-				<td scope="row" valign="top" style="width:300px !important; padding-left:0px"><label><b><?php echo __('reCAPTCHA type', 'loginizer'); ?></b></label><br>
+				<td scope="row" valign="top"><label><b><?php echo __('reCAPTCHA type', 'loginizer'); ?></b></label><br>
 				<?php echo __('Choose the type of reCAPTCHA', 'loginizer'); ?><br />
 				<?php echo __('<a href="https://g.co/recaptcha/sitetypes/" target="_blank">See Site Types for more details</a>', 'loginizer'); ?>
 				</td>
 				<td>
-					<input type="radio" value="v3" onchange="google_recaptcha_type(this)" <?php echo lz_POSTradio('captcha_type', 'v3', $loginizer['captcha_type']); ?> name="captcha_type" id="captcha_type_v3" /> <label for="captcha_type_v3"><?php echo __('reCAPTCHA v3', 'loginizer'); ?></label><br /><br />
-					<input type="radio" value="" onchange="google_recaptcha_type(this)" <?php echo lz_POSTradio('captcha_type', '', $loginizer['captcha_type']); ?> name="captcha_type" id="captcha_type_v2" /> <label for="captcha_type_v2"><?php echo __('reCAPTCHA v2 - Checkbox', 'loginizer'); ?></label><br /><br />
-					<input type="radio" value="v2_invisible" onchange="google_recaptcha_type(this)" <?php echo lz_POSTradio('captcha_type', 'v2_invisible', $loginizer['captcha_type']); ?> name="captcha_type" id="captcha_type_v2_invisible" /> <label for="captcha_type_v2_invisible"><?php echo __('reCAPTCHA v2 - Invisible', 'loginizer'); ?></label><br />
+					<input type="radio" value="v3" onchange="google_recaptcha_type()" <?php echo lz_POSTradio('captcha_type', 'v3', $loginizer['captcha_type']); ?> name="captcha_type" id="captcha_type_v3" /> <label for="captcha_type_v3"><?php echo __('reCAPTCHA v3', 'loginizer'); ?></label><br /><br />
+					<input type="radio" value="" onchange="google_recaptcha_type()" <?php echo lz_POSTradio('captcha_type', '', $loginizer['captcha_type']); ?> name="captcha_type" id="captcha_type_v2" /> <label for="captcha_type_v2"><?php echo __('reCAPTCHA v2 - Checkbox', 'loginizer'); ?></label><br /><br />
+					<input type="radio" value="v2_invisible" onchange="google_recaptcha_type()" <?php echo lz_POSTradio('captcha_type', 'v2_invisible', $loginizer['captcha_type']); ?> name="captcha_type" id="captcha_type_v2_invisible" /> <label for="captcha_type_v2_invisible"><?php echo __('reCAPTCHA v2 - Invisible', 'loginizer'); ?></label><br />
 				</td>
 			</tr>
 			<tr class="lz_google_cap">
-				<td scope="row" valign="top" style="width:300px !important; padding-left:0px"><label><b><?php echo __('Site Key', 'loginizer'); ?></b></label><br>
+				<td scope="row" valign="top"><label for="captcha_key"><b><?php echo __('Site Key', 'loginizer'); ?></b></label><br>
 				<?php echo __('Make sure you enter the correct keys as per the reCAPTCHA type selected above', 'loginizer'); ?>
 				</td>
 				<td>
-					<input type="text" size="50" value="<?php echo lz_optpost('captcha_key', $loginizer['captcha_key']); ?>" name="captcha_key" /><br />
+					<input type="text" size="50" value="<?php echo lz_optpost('captcha_key', $loginizer['captcha_key']); ?>" name="captcha_key" id="captcha_key" /><br />
 					<?php echo __('Get the Site Key and Secret Key from <a href="https://www.google.com/recaptcha/admin/" target="_blank">Google</a>', 'loginizer'); ?>
 				</td>
 			</tr>
 			<tr class="lz_google_cap">
-				<th scope="row" valign="top"><label><?php echo __('Secret Key', 'loginizer'); ?></label></th>
+				<td scope="row" valign="top"><label for="captcha_secret"><b><?php echo __('Secret Key', 'loginizer'); ?></b></label></td>
 				<td>
-					<input type="text" size="50" value="<?php echo lz_optpost('captcha_secret', $loginizer['captcha_secret']); ?>" name="captcha_secret" />
+					<input type="text" size="50" value="<?php echo lz_optpost('captcha_secret', $loginizer['captcha_secret']); ?>" name="captcha_secret" id="captcha_secret" />
 				</td>
 			</tr>
 			<tr class="lz_google_cap">
-				<th scope="row" valign="top"><label><?php echo __('Theme', 'loginizer'); ?></label></th>
+				<td scope="row" valign="top"><label for="captcha_theme"><b><?php echo __('Theme', 'loginizer'); ?></b></label></td>
 				<td>
-					<select name="captcha_theme">
+					<select name="captcha_theme" id="captcha_theme">
 						<?php
 							foreach($lz_env['theme'] as $k => $v){
 								echo '<option '.lz_POSTselect('captcha_theme', $k, ($loginizer['captcha_theme'] == $k ? true : false)).' value="'.$k.'">'.$v.'</value>';								
@@ -2976,9 +3015,9 @@ input[type="text"], textarea, select {
 				</td>
 			</tr>
 			<tr class="lz_google_cap">
-				<th scope="row" valign="top"><label><?php echo __('Language', 'loginizer'); ?></label></th>
+				<td scope="row" valign="top"><label for="captcha_lang"><b><?php echo __('Language', 'loginizer'); ?></b></label></td>
 				<td>
-					<select name="captcha_lang">
+					<select name="captcha_lang" id="captcha_lang">
 						<?php
 							foreach($lz_env['lang'] as $k => $v){
 								echo '<option '.lz_POSTselect('captcha_lang', $k, ($loginizer['captcha_lang'] == $k ? true : false)).' value="'.$k.'">'.$v.'</value>';								
@@ -2988,9 +3027,9 @@ input[type="text"], textarea, select {
 				</td>
 			</tr>
 			<tr class="lz_google_cap lz_google_cap_size">
-				<th scope="row" valign="top"><label><?php echo __('Size', 'loginizer'); ?></label></th>
+				<td scope="row" valign="top"><label for="captcha_size"><b><?php echo __('Size', 'loginizer'); ?></b></label></td>
 				<td>
-					<select name="captcha_size">
+					<select name="captcha_size" id="captcha_size">
 						<?php
 							foreach($lz_env['size'] as $k => $v){
 								echo '<option '.lz_POSTselect('captcha_size', $k, ($loginizer['captcha_size'] == $k ? true : false)).' value="'.$k.'">'.$v.'</value>';								
@@ -2999,44 +3038,50 @@ input[type="text"], textarea, select {
 					</select>
 				</td>
 			</tr>
-			<tr>
-				<td scope="row" valign="top" style="padding-left:0px">
-					<label><b><?php echo __('Don\'t use Google reCAPTCHA', 'loginizer'); ?></b></label><br>
-					<?php echo __('If selected, '.$loginizer['prefix'].' will use a simple Math Captcha instead of Google reCAPTCHA', 'loginizer'); ?>
+			<tr class="lz_google_cap">
+				<td scope="row" valign="top">
+					<label for="captcha_domain"><b><?php echo __('reCAPTCHA Domain', 'loginizer'); ?></b></label><br>
+					<?php echo __('If Google is not accessible or blocked in your country select other one', 'loginizer'); ?>
 				</td>
 				<td>
-					<input type="checkbox" onclick="no_google_recaptcha(this)" id="captcha_no_google" value="1" name="captcha_no_google" <?php echo lz_POSTchecked('captcha_no_google', (empty($loginizer['captcha_no_google']) ? false : true)); ?> />
+					<select name="captcha_domain" id="captcha_domain">
+						<?php
+							foreach($lz_env['captcha_domains'] as $k => $v){
+								echo '<option '.lz_POSTselect('captcha_domain', $k, ($loginizer['captcha_domain'] == $k ? true : false)).' value="'.$k.'">'.$v.($k == 'www.google.com' ? ' '.__('(Default)', 'loginizer') : '').'</value>';								
+							}
+						?>
+					</select>
 				</td>
 			</tr>
 			<tr class="lz_math_cap">
-				<td scope="row" valign="top" style="width:300px !important; padding-left:0px">
-					<label><b><?php echo __('Captcha Text', 'loginizer'); ?></b></label><br>
+				<td scope="row" valign="top">
+					<label for="captcha_text"><b><?php echo __('Captcha Text', 'loginizer'); ?></b></label><br>
 					<?php echo __('The text to be shown for the Captcha Field', 'loginizer'); ?>
 				</td>
 				<td>
-					<input type="text" size="30" value="<?php echo lz_optpost('captcha_text', @$loginizer['captcha_text']); ?>" name="captcha_text" />
+					<input type="text" size="30" value="<?php echo lz_optpost('captcha_text', @$loginizer['captcha_text']); ?>" name="captcha_text" id="captcha_text" />
 				</td>
 			</tr>
 			<tr class="lz_math_cap">
-				<td scope="row" valign="top" style="padding-left:0px">
-					<label><b><?php echo __('Captcha Time', 'loginizer'); ?></b></label><br>
+				<td scope="row" valign="top">
+					<label for="captcha_time"><b><?php echo __('Captcha Time', 'loginizer'); ?></b></label><br>
 					<?php echo __('Enter the number of seconds, a user has to enter captcha value.', 'loginizer'); ?>
 				</td>
 				<td>
-					<input type="text" size="30" value="<?php echo lz_optpost('captcha_time', @$loginizer['captcha_time']); ?>" name="captcha_time" />
+					<input type="text" size="30" value="<?php echo lz_optpost('captcha_time', @$loginizer['captcha_time']); ?>" name="captcha_time" id="captcha_time" />
 				</td>
 			</tr>
 			<tr class="lz_math_cap">
-				<td scope="row" valign="top" style="padding-left:0px">
-					<label><b><?php echo __('Display Captcha in Words', 'loginizer'); ?></b></label><br>
+				<td scope="row" valign="top">
+					<label for="captcha_words"><b><?php echo __('Display Captcha in Words', 'loginizer'); ?></b></label><br>
 					<?php echo __('If selected the Captcha will be displayed in words rather than numbers', 'loginizer'); ?>
 				</td>
 				<td>
-					<input type="checkbox" value="1" name="captcha_words" <?php echo lz_POSTchecked('captcha_words', (empty($loginizer['captcha_words']) ? false : true));?> />
+					<input type="checkbox" value="1" name="captcha_words" id="captcha_words" <?php echo lz_POSTchecked('captcha_words', (empty($loginizer['captcha_words']) ? false : true));?> />
 				</td>
 			</tr>
 			<tr class="lz_math_cap">
-				<td scope="row" valign="top" style="vertical-align: top !important; padding-left:0px">
+				<td scope="row" valign="top" style="vertical-align: top !important;">
 					<label><b><?php echo __('Mathematical operations', 'loginizer'); ?></b></label><br>
 					<?php echo __('The Mathematical operations to use for Captcha', 'loginizer'); ?>
 				</td>
@@ -3044,56 +3089,56 @@ input[type="text"], textarea, select {
 					<table class="wp-list-table fixed users" cellpadding="8" cellspacing="1">
 						<?php echo '
 						<tr>
-							<td>'.__('Addition (+)', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_add" '.lz_POSTchecked('captcha_add', (empty($loginizer['captcha_add']) ? false : true)).' /></td>
+							<td><label for="captcha_add">'.__('Addition (+)', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_add" id="captcha_add" '.lz_POSTchecked('captcha_add', (empty($loginizer['captcha_add']) ? false : true)).' /></td>
 						</tr>
 						<tr>
-							<td>'.__('Subtraction (-)', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_subtract" '.lz_POSTchecked('captcha_subtract', (empty($loginizer['captcha_subtract']) ? false : true)).' /></td>
+							<td><label for="captcha_subtract">'.__('Subtraction (-)', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_subtract" id="captcha_subtract" '.lz_POSTchecked('captcha_subtract', (empty($loginizer['captcha_subtract']) ? false : true)).' /></td>
 						</tr>
 						<tr>
-							<td>'.__('Multiplication (x)', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_multiply" '.lz_POSTchecked('captcha_multiply', (empty($loginizer['captcha_multiply']) ? false : true)).' /></td>
+							<td><label for="captcha_multiply">'.__('Multiplication (x)', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_multiply" id="captcha_multiply" '.lz_POSTchecked('captcha_multiply', (empty($loginizer['captcha_multiply']) ? false : true)).' /></td>
 						</tr>
 						<tr>
-							<td>'.__('Division (รท)', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_divide" '.lz_POSTchecked('captcha_divide', (empty($loginizer['captcha_divide']) ? false : true)).' /></td>
+							<td><label for="captcha_divide">'.__('Division (÷)', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_divide" id="captcha_divide" '.lz_POSTchecked('captcha_divide', (empty($loginizer['captcha_divide']) ? false : true)).' /></td>
 						</tr>';
 						?>
 					</table>
 				</td>
 			</tr>
-			<tr>
-				<th scope="row" valign="top"><label><?php echo __('Show Captcha On', 'loginizer'); ?></label></th>
+			<tr class="lz_cap">
+				<td scope="row" valign="top"><label><b><?php echo __('Show Captcha On', 'loginizer'); ?></b></label></td>
 				<td valign="top">
 					<table class="wp-list-table fixed users" cellpadding="8" cellspacing="1">
 						<?php echo '
 						<tr>
-							<td>'.__('Login Form', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_login" '.lz_POSTchecked('captcha_login', (empty($loginizer['captcha_login']) ? false : true)).' /></td>
+							<td><label for="captcha_login">'.__('Login Form', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_login" id="captcha_login" '.lz_POSTchecked('captcha_login', (empty($loginizer['captcha_login']) ? false : true)).' /></td>
 						</tr>
 						<tr>
-							<td>'.__('Lost Password Form', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_lostpass" '.lz_POSTchecked('captcha_lostpass', (empty($loginizer['captcha_lostpass']) ? false : true)).' /></td>
+							<td><label for="captcha_lostpass">'.__('Lost Password Form', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_lostpass" id="captcha_lostpass" '.lz_POSTchecked('captcha_lostpass', (empty($loginizer['captcha_lostpass']) ? false : true)).' /></td>
 						</tr>
 						<tr>
-							<td>'.__('Reset Password Form', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_resetpass" '.lz_POSTchecked('captcha_resetpass', (empty($loginizer['captcha_resetpass']) ? false : true)).' /></td>
+							<td><label for="captcha_resetpass">'.__('Reset Password Form', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_resetpass" id="captcha_resetpass" '.lz_POSTchecked('captcha_resetpass', (empty($loginizer['captcha_resetpass']) ? false : true)).' /></td>
 						</tr>
 						<tr>
-							<td>'.__('Registration Form', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_register" '.lz_POSTchecked('captcha_register', (empty($loginizer['captcha_register']) ? false : true)).' /></td>
+							<td><label for="captcha_register">'.__('Registration Form', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_register" id="captcha_register" '.lz_POSTchecked('captcha_register', (empty($loginizer['captcha_register']) ? false : true)).' /></td>
 						</tr>
 						<tr>
-							<td>'.__('Comment Form', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_comment" '.lz_POSTchecked('captcha_comment', (empty($loginizer['captcha_comment']) ? false : true)).' /></td>
+							<td><label for="captcha_comment">'.__('Comment Form', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_comment" id="captcha_comment" '.lz_POSTchecked('captcha_comment', (empty($loginizer['captcha_comment']) ? false : true)).' /></td>
 						</tr>';
 						
 						if(!defined('SITEPAD')){
 						
 						echo '<tr>
-							<td>'.__('WooCommerce Checkout', 'loginizer').'</td>
-							<td><input type="checkbox" value="1" name="captcha_wc_checkout" '.lz_POSTchecked('captcha_wc_checkout', (empty($loginizer['captcha_wc_checkout']) ? false : true)).' /></td>
+							<td><label for="captcha_wc_checkout">'.__('WooCommerce Checkout', 'loginizer').'</label></td>
+							<td><input type="checkbox" value="1" name="captcha_wc_checkout" id="captcha_wc_checkout" '.lz_POSTchecked('captcha_wc_checkout', (empty($loginizer['captcha_wc_checkout']) ? false : true)).' /></td>
 						</tr>';
 						
 						}
@@ -3102,21 +3147,20 @@ input[type="text"], textarea, select {
 					</table>
 				</td>
 			</tr>
-			<tr>
-				<th scope="row" valign="top"><label><?php echo __('Hide CAPTCHA for logged in Users', 'loginizer'); ?></label></th>
+			<tr class="lz_cap">
+				<td scope="row" valign="top"><label for="captcha_user_hide"><b><?php echo __('Hide CAPTCHA for logged in Users', 'loginizer'); ?></b></label></td>
 				<td>
-					<input type="checkbox" value="1" name="captcha_user_hide" <?php echo lz_POSTchecked('captcha_user_hide', (empty($loginizer['captcha_user_hide']) ? false : true)); ?> />
+					<input type="checkbox" value="1" name="captcha_user_hide" id="captcha_user_hide" <?php echo lz_POSTchecked('captcha_user_hide', (empty($loginizer['captcha_user_hide']) ? false : true)); ?> />
 				</td>
 			</tr>
 			<tr class="lz_google_cap">
-				<th scope="row" valign="top"><label><?php echo __('Disable CSS inserted on Login Page', 'loginizer'); ?></label></th>
+				<td scope="row" valign="top"><label for="captcha_no_css_login"><b><?php echo __('Disable CSS inserted on Login Page', 'loginizer'); ?></b></label></td>
 				<td>
-					<input type="checkbox" value="1" name="captcha_no_css_login" <?php echo lz_POSTchecked('captcha_no_css_login', (empty($loginizer['captcha_no_css_login']) ? false : true)); ?> />
+					<input type="checkbox" value="1" name="captcha_no_css_login" id="captcha_no_css_login" <?php echo lz_POSTchecked('captcha_no_css_login', (empty($loginizer['captcha_no_css_login']) ? false : true)); ?> />
 				</td>
 			</tr>
 		</table><br />
-		<center><input name="save_lz" class="button button-primary action" value="<?php echo __('Save Settings','loginizer'); ?>" type="submit" />
-		<input style="float:right" name="clear_captcha_lz" class="button action" value="<?php echo __('Disable reCAPTCHA','loginizer'); ?>" type="submit" /></center>
+		<center><input name="save_lz" class="button button-primary action" value="<?php echo __('Save Settings','loginizer'); ?>" type="submit" /></center>
 		</form>
 	
 		</div>
@@ -3125,15 +3169,31 @@ input[type="text"], textarea, select {
 
 <script type="text/javascript">
 
-function no_google_recaptcha(obj){
+function lz_captcha_status(){
 	
-	if(obj.checked){
-		jQuery(".lz_google_cap").hide();
-		jQuery(".lz_math_cap").show();
-	}else{
+	var cur_captcha_status = jQuery("#captcha_status option:selected").val();
+	
+	if(cur_captcha_status == 1){
 		jQuery(".lz_google_cap").show();
 		jQuery(".lz_math_cap").hide();
+		jQuery(".lz_cap").show();
+		google_recaptcha_type();
+		
+	}else if(cur_captcha_status == 2){
+		jQuery(".lz_google_cap").hide();
+		jQuery(".lz_math_cap").show();
+		jQuery(".lz_cap").show();
+	}else{
+		jQuery(".lz_google_cap").hide();
+		jQuery(".lz_math_cap").hide();
+		jQuery(".lz_cap").hide();
 	}
+	
+}
+
+lz_captcha_status();
+
+function google_recaptcha_type(){
 	
 	var cur_captcha_type = jQuery("input:radio[name='captcha_type']:checked").val();
 	
@@ -3143,16 +3203,6 @@ function no_google_recaptcha(obj){
 		jQuery(".lz_google_cap_size").show();
 	}
 	
-}
-
-no_google_recaptcha(jQuery("#captcha_no_google")[0]);
-
-function google_recaptcha_type(obj){
-	if(obj.value == 'v3' || obj.value == 'v2_invisible'){
-		jQuery(".lz_google_cap_size").hide();
-	}else{
-		jQuery(".lz_google_cap_size").show();
-	}
 }
 
 

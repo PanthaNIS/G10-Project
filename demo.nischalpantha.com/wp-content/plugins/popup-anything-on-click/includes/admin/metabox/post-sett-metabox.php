@@ -95,7 +95,7 @@ if( ! $enable ) { ?>
 
 		<!-- Pro Feature - Button -->
 		<li class="paoc-pro-tab-wrap">
-			<a href="<?php echo POPUPAOC_PLUGIN_LINK; ?>" target="_blank" class="paoc-pro-upgrade-link">
+			<a href="<?php echo POPUPAOC_PLUGIN_LINK_UNLOCK; ?>" target="_blank" class="paoc-pro-upgrade-link">
 				<i class="dashicons dashicons-money-alt"></i>
 				<?php _e('Upgrade to Premium', 'popup-anything-on-click'); ?>
 			</a>

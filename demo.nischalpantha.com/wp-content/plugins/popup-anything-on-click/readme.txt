@@ -2,15 +2,18 @@
 Contributors: wponlinesupport, anoopranawat, pratik-jain, piyushpatel123, ridhimashukla, patelketan
 Tags:  modal popup, popup, modal, page load, marketing popup, full-screen popup, HTML popup, image popup, page load popup, popup on click, modal popup on click, full-screen popup on click, on-click popup
 Requires at least: 5.2
-Tested up to: 5.8.2
-Stable tag: 2.0.8
+Tested up to: 5.9
+Stable tag: 2.0.10
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
 Display a modal popup on a page load or by clicking link, image, or button.
 
 == Description ==
-Popup anything work with
+
+[Explore Popup Anything Pro Features](https://www.essentialplugin.com/wordpress-plugin/popup-anything-click/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me) | [Bundle Deal](https://www.essentialplugin.com/wordpress-plugin/popup-anything-click/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me#wpos-epb)
+
+[Popup anything](https://www.essentialplugin.com/wordpress-plugin/popup-anything-click/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me) work with
 
 * On Page Load,
 * Link Click,
@@ -20,14 +23,6 @@ Popup anything work with
 Popup Anything is the best popup builder and marketing plugin that helps you get more email subscribers, increase sales and grow your business.
 
 Manage powerful modal popup for your WordPress blog or website. You can add an unlimited popup with your own configurations.
-
-> Download & Explore "Popup Anything - A Marketing Popup" plugin and 50+ recommended plugin inside.
->
-> OR 
->
-> [Explore and check pro features with Essential Plugin Bundle](https://www.essentialplugin.com/essential-bundle/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me)
->
-> [Essential Plugin Bundle](https://www.essentialplugin.com/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me) Well optimized, light weighted & expandable plugins for web site, landing pages & conversions
 
 Popup anything on click is a modal popup plugin for WordPress websites that allows you to add highly customizable popup windows. Set Popup position ie center, top left, top right, bottom left, bottom right, center-left, and center-right.
 
@@ -86,7 +81,7 @@ With Popup anything on click plugin, you can insert any type of content into you
 > * Popup background image, color and font-size
 > * Popup overlay image and background color
 >
-> [Explore and check pro features with Essential Plugin Bundle](https://www.essentialplugin.com/essential-bundle/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me)
+>  [Explore Popup Anything Pro Features](https://www.essentialplugin.com/wordpress-plugin/popup-anything-click/?utm_source=WP&utm_medium=Popup-Anything&utm_campaign=Read-Me)
 >
 
 Find out about other [best WordPress plugins](https://www.essentialplugin.com/wordpress-plugins/).
@@ -128,6 +123,17 @@ You can use <code>.paoc-popup-btn</code> class to change the button design as pe
 7) General Settings
 
 == Changelog ==
+
+= 2.0.10 (11, Feb 2022) =
+* [-] Removed some unwanted code and files.
+
+= 2.0.9.1 (3, Feb 2022) =
+* [*] Update - Minor changes in HTML files.
+
+= 2.0.9 (27, Jan 2022) =
+* [*] Tested with WordPress 5.9
+* [*] Update - Allowed HTML tags in Popup Main Heading and Sub Heading.
+* [*] Update - We have changed one animation name fadeIn to paoc-fadeIn due to generic name conflict.
 
 = 2.0.8 (28, Dec 2021) =
 * [*] Fixed - Multiple Popup render in DOM.

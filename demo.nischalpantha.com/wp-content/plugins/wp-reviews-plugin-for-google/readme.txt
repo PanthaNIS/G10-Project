@@ -3,9 +3,9 @@ Contributors: trustindex
 Donate link: https://www.trustindex.io/prices/
 Tags: google, google places reviews, reviews, widget, google business, review, testimonial, testimonials, slider, rating, google my business, customer review
 Requires at least: 3.0.1
-Tested up to: 5.8.2
+Tested up to: 5.9
 Requires PHP: 5.2
-Stable tag: 7.9.1
+Stable tag: 7.12
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Plugin Name: Widgets for Google Reviews
@@ -14,9 +14,9 @@ Plugin URI: https://wordpress.org/plugins/wp-reviews-plugin-for-google/
 Author: Trustindex.io <support@trustindex.io>
 Author URI: https://www.trustindex.io/
 Text Domain: wp-reviews-plugin-for-google
-Version: 7.9.1
+Version: 7.12
 
-Embed Google reviews fast and easily into your WordPress site. Increase SEO, trust and sales using Google Business reviews.
+Embed Google reviews fast and easily into your WordPress site. Increase SEO, trust and sales using Google reviews.
 
 == Description ==
 
@@ -47,8 +47,8 @@ If you don’t yet have any Google reviews, there’s no need to panic; simply s
 The Google Reviews WordPress plugin offers various layouts and styles to choose from and allows for easy integration into any WordPress page.
 
 * Free usage
-* Display up to 10 Google Reviews* 35+ Widget layouts
-* 16+ Pre-designed widget styles
+* Display up to 10 Google Reviews* 40+ Widget layouts
+* 25+ Pre-designed widget styles
 * 1 Review widget
 * Review filtering
 * Language support
@@ -128,7 +128,7 @@ Why not display your other ratings, too? Check out our other free review plugins
 If your company does business globally, it’s in your interest to cater to various languages.
 
 Our Widgets for Google Reviews supports the following languages:
-Afrikaans, Albanian, Arabic, Armenian, Azerbaijani, Bengali, Bosnian, Bulgarian, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Korean, Lithuanian, Macedonian, Malay, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Scottish Gaelic, Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish, Ukranian, Vietnamese, Welsh
+Afrikaans, Albanian, Arabic, Armenian, Azerbaijani, Bengali, Bosnian, Bulgarian, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, Georgian, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Korean, Lithuanian, Macedonian, Malay, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Scottish Gaelic, Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish, Ukranian, Vietnamese, Welsh
 
 == Support ==
 
@@ -171,7 +171,7 @@ You will gain access to the widget’s code as soon as you’ve finished setting
 
 = What are the major features of the free plugin? =
 
-With the free plugin, you’ll have access to as many as 35 widget layouts and 16 predesigned styles. You’ll be able to display up to 10 Google reviews, support various languages, and filter the reviews according to criteria such as star rating and date.
+With the free plugin, you’ll have access to as many as 40 widget layouts and 25 predesigned styles. You’ll be able to display up to 10 Google reviews, support various languages, and filter the reviews according to criteria such as star rating and date.
 
 = Which website CMS or site builder are the widgets compatible with? =
 

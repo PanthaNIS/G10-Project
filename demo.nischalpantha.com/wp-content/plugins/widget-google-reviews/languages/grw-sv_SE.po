@@ -31,3 +31,6 @@ msgstr "Skriv en recension"
 
 msgid "Based on %s reviews"
 msgstr "Baserat på %s recensioner"
+
+msgid "Ready to review?"
+msgstr "Lämna ett omdöme"

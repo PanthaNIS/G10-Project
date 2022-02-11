@@ -42,6 +42,9 @@ class Popupaoc_Admin {
 
 		// Render Popup Preview
 		add_action( 'wp', array($this, 'popupaoc_render_popup_preview') );
+
+		// Action to add little JS code in admin footer
+		add_action( 'admin_footer', array($this, 'popupaoc_upgrade_page_link_blank') );
 	}
 
 	/**
@@ -56,8 +59,19 @@ class Popupaoc_Admin {
 		add_submenu_page( 'edit.php?post_type='.POPUPAOC_POST_TYPE, __('Settings - Popup Anything On Click', 'popup-anything-on-click'), __('Settings', 'popup-anything-on-click'), 'manage_options', 'popupaoc-settings', array($this, 'popupaoc_settings_page') );
 
 		// Register plugin premium page
-		add_submenu_page( 'edit.php?post_type='.POPUPAOC_POST_TYPE, __('Upgrade to PRO - Popup Anything On Click', 'popup-anything-on-click'), '<span style="color:#ff2700">'.__('Upgrade to PRO', 'popup-anything-on-click').'</span>', 'manage_options', 'popupaoc-premium', array($this, 'popupaoc_premium_page') );
+		//add_submenu_page( 'edit.php?post_type='.POPUPAOC_POST_TYPE, __('Join $0 Pro Trail - Popup Anything On Click', 'popup-anything-on-click'), '<span style="color:#ff2700">'.__('Join $0 Pro Trail', 'popup-anything-on-click').'</span>', 'manage_options', 'popupaoc-premium', array($this, 'popupaoc_premium_page') );
+
+		add_submenu_page( 'edit.php?post_type='.POPUPAOC_POST_TYPE, __('Upgrade To PRO - Popup Anything On Click', 'popup-anything-on-click'), '<span class="wpos-upgrade-pro" style="color:#ff2700">' . __('Upgrade To Premium ', 'popup-anything-on-click') . '</span>', 'manage_options', 'popupaoc-upgrade-pro', array($this, 'popupaoc_redirect_page') );
+		add_submenu_page( 'edit.php?post_type='.POPUPAOC_POST_TYPE, __('Bundle Deal - Popup Anything On Click', 'popup-anything-on-click'), '<span class="wpos-upgrade-pro" style="color:#ff2700">' . __('Bundle Deal', 'popup-anything-on-click') . '</span>', 'manage_options', 'popupaoc-bundle-deal', array($this, 'popupaoc_redirect_page') );
 			
+	}
+
+	/**
+	 * Redirect page HTML
+	 * 
+	 * @since 1.0
+	 */
+	function popupaoc_redirect_page() {
 	}
 
 	/**
@@ -144,8 +158,8 @@ class Popupaoc_Admin {
 
 		// Content Settings
 		$content						= isset( $_POST[$prefix.'content'] )		? $_POST[$prefix.'content']										: array();
-		$content['main_heading']		= isset( $content['main_heading'] )			? popupaoc_clean( $content['main_heading'] )					: '';
-		$content['sub_heading']			= isset( $content['sub_heading'] )			? popupaoc_clean( $content['sub_heading'] )						: '';
+		$content['main_heading']		= isset( $content['main_heading'] )			? popupaoc_clean_html( $content['main_heading'] )					: '';
+		$content['sub_heading']			= isset( $content['sub_heading'] )			? popupaoc_clean_html( $content['sub_heading'] )						: '';
 		$content['cust_close_txt']		= isset( $content['cust_close_txt'] )		? popupaoc_clean( $content['cust_close_txt'] )					: '';
 		$content['security_note']		= isset( $content['security_note'] )		? popupaoc_clean( $content['security_note'] )					: '';
 		$content['secondary_content']	= isset( $content['secondary_content'] )	? popupaoc_clean_html( $content['secondary_content'], true )	: '';
@@ -266,9 +280,9 @@ class Popupaoc_Admin {
 	 * @package Popup Anything on Click
 	 * @since 1.0.0
 	 */
-	function popupaoc_premium_page() {
-		include_once( POPUPAOC_DIR . '/includes/admin/settings/premium.php' );
-	}	
+	// function popupaoc_premium_page() {
+	// 	include_once( POPUPAOC_DIR . '/includes/admin/settings/trail-premium.php' );
+	// }	
 
 	/**
 	 * Admin Prior Process
@@ -277,10 +291,32 @@ class Popupaoc_Admin {
 	 * @since 1.2.2
 	 */
 	function popupaoc_admin_init_process() {
+
+		global $typenow, $pagenow;
+
+		$current_page = isset( $_REQUEST['page'] ) ? $_REQUEST['page'] : '';
+
 		// If plugin notice is dismissed
 		if( isset($_GET['message']) && $_GET['message'] == 'popupaoc-plugin-notice' ) {
 			set_transient( 'popupaoc_install_notice', true, 604800 );
 		}
+
+		// Redirect to external page for upgrade to menu
+		if( $typenow == POPUPAOC_POST_TYPE ) {
+
+			if( $current_page == 'popupaoc-upgrade-pro' ) {
+
+				wp_redirect( POPUPAOC_PLUGIN_LINK_UPGRADE );
+				exit;
+			}
+
+			if( $current_page == 'popupaoc-bundle-deal' ) {
+
+				wp_redirect( POPUPAOC_PLUGIN_BUNDLE_LINK );
+				exit;
+			}
+		}
+
 	}
 
 	/**
@@ -361,6 +397,28 @@ class Popupaoc_Admin {
 			include_once( POPUPAOC_DIR . '/includes/admin/preview/preview.php' );
 			exit;
 		}
+	}
+
+	/**
+	 * Add JS snippet to admin footer to add target _blank in upgrade link
+	 *
+	 * @since 1.0.0
+	 */
+	function popupaoc_upgrade_page_link_blank() {
+
+		global $wpos_upgrade_link_snippet;
+
+		// Redirect to external page
+		if( empty( $wpos_upgrade_link_snippet ) ) {
+
+			$wpos_upgrade_link_snippet = 1;
+	?>
+		<script type="text/javascript">
+			(function ($) {
+				$('.wpos-upgrade-pro').parent().attr( { target: '_blank', rel: 'noopener noreferrer' } );
+			})(jQuery);
+		</script>
+	<?php }
 	}
 }
 

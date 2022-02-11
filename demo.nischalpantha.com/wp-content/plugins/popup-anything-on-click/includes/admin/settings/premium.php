@@ -87,8 +87,8 @@ if ( !defined( 'ABSPATH' ) ) {
 	<div id="poststuff">
 		<div id="post-body" class="metabox-holder columns-2">
 			<div id="post-body-content">
-				
-				<h3 class="larger-font"><?php _e( 'Well <span style="color:#388e3c"> optimized</span>, <span style="color:#7b1fa2">light weight</span> & <span style="color:#3e50b4">expandable</span> plugins <br /> for <span style="background:#ff4081; color:#fff;">web site, landing pages &amp; conversions</span>', 'popup-anything-on-click' ); ?></h3>
+
+				<h3 style="margin-bottom: 16px;line-height: 40px;display: inline-block;font-size: 22px;">Build <span style="background:#0099fb;color:#fff;padding: 0 5px;">better websites</span>, <span style="background:#0099fb;color:#fff;padding: 0 5px;">landing pages</span> &amp; <span style="background:#0099fb;color:#fff;padding: 0 5px;">conversion flow</span></h3>
 				<h3 class=""><?php _e( 'Multiple pre-built template options with <span class="h-orange"> Gutenberg, DIVI, Elementor, Avada, VC/WPbakery </span>etc page builder/themes', 'popup-anything-on-click' ); ?></h3>
 				<h3 class="larger-font"><?php _e( '<span class="h-blue">46 plugins</span>, <span class="h-blue">10 sliders</span> with <span class="h-blue">2000+</span> pre-built templates in <span class="h-blue">Essential Bundle</span>', 'popup-anything-on-click' ); ?></h3>
 				<h3 style="text-align:center;"><?php _e( 'Top plugins category wise:', 'popup-anything-on-click' ); ?></h3>

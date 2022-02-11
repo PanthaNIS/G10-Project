@@ -28,3 +28,6 @@ msgstr "plus"
 
 msgid "Based on %s reviews"
 msgstr "Basé sur %s avis"
+
+msgid "Ready to review?"
+msgstr "Prêt à évaluer?"

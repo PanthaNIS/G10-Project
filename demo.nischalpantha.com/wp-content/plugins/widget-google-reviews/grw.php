@@ -3,7 +3,7 @@
 Plugin Name: Widget for Google Reviews
 Plugin URI: https://richplugins.com/business-reviews-bundle-wordpress-plugin
 Description: Instantly Google Places Reviews on your website to increase user confidence and SEO.
-Version: 2.1.0
+Version: 2.1.2
 Author: RichPlugins <support@richplugins.com>
 Author URI: https://richplugins.com
 Text Domain: widget-google-reviews
@@ -18,7 +18,7 @@ if (!defined('ABSPATH')) {
 
 require(ABSPATH . 'wp-includes/version.php');
 
-define('GRW_VERSION'          , '2.1.0');
+define('GRW_VERSION'          , '2.1.2');
 define('GRW_PLUGIN_FILE'      , __FILE__);
 define('GRW_PLUGIN_URL'       , plugins_url(basename(plugin_dir_path(__FILE__ )), basename(__FILE__)));
 define('GRW_ASSETS_URL'       , GRW_PLUGIN_URL . '/assets/');

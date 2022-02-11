@@ -9,7 +9,8 @@ $ti_command_list = [
 'save-set',
 'save-language',
 'save-dateformat',
-'save-options'
+'save-options',
+'save-align'
 ];
 if(!in_array($ti_command, $ti_command_list))
 {
@@ -104,6 +105,10 @@ global $wpdb;
 delete_option( $trustindex_pm_google->get_option_name('page-details') );
 delete_option( $trustindex_pm_google->get_option_name('review-content') );
 delete_option( $trustindex_pm_google->get_option_name('css-content') );
+if(is_file($trustindex_pm_google->getCssFile()))
+{
+unlink($trustindex_pm_google->getCssFile());
+}
 if($settings_delete)
 {
 delete_option( $trustindex_pm_google->get_option_name('style-id') );
@@ -126,16 +131,25 @@ function trustindex_plugin_change_step($step = 5)
 global $trustindex_pm_google;
 if($step < 5)
 {
-delete_option($trustindex_pm_google->get_option_name('widget-setted-up'));
+$options_to_delete = [
+'widget-setted-up',
+'align',
+'verified-icon',
+'enable-animation',
+'no-rating-text',
+'disable-font',
+'show-reviewers-photo',
+'show-logos',
+'show-stars'
+];
+foreach($options_to_delete as $name)
+{
+delete_option($trustindex_pm_google->get_option_name($name));
+}
 }
 if($step < 4)
 {
-$style_id = get_option($trustindex_pm_google->get_option_name('style-id'));
 delete_option($trustindex_pm_google->get_option_name('scss-set'));
-if(in_array($style_id, [ 17, 21 ]))
-{
-$step--;
-}
 }
 if($step < 3)
 {
@@ -264,6 +278,13 @@ delete_option( $trustindex_pm_google->get_option_name('review-content') );
 $trustindex_pm_google->noreg_save_css(true);
 exit;
 }
+elseif($ti_command == 'save-align')
+{
+check_admin_referer( 'save-align_'.$trustindex_pm_google->get_plugin_slug(), '_wpnonce_align' );
+update_option( $trustindex_pm_google->get_option_name('align') , sanitize_text_field($_POST['align']), false );
+$trustindex_pm_google->noreg_save_css(true);
+exit;
+}
 $reviews = [];
 $only_ratings_default = false;
 if($trustindex_pm_google->is_noreg_linked())
@@ -283,20 +304,18 @@ $style_id = get_option( $trustindex_pm_google->get_option_name('style-id') );
 $scss_set = get_option( $trustindex_pm_google->get_option_name('scss-set') );
 $lang = get_option( $trustindex_pm_google->get_option_name('lang'), 'en');
 $dateformat = get_option( $trustindex_pm_google->get_option_name('dateformat'), 'Y-m-d' );
-$no_rating_text = get_option( $trustindex_pm_google->get_option_name('no-rating-text'));
+$no_rating_text = get_option( $trustindex_pm_google->get_option_name('no-rating-text'), $trustindex_pm_google->get_default_no_rating_text($style_id, $scss_set) );
 $filter = get_option( $trustindex_pm_google->get_option_name('filter'), [ 'stars' => [1, 2, 3, 4, 5], 'only-ratings' => $only_ratings_default ] );
 $verified_icon = get_option( $trustindex_pm_google->get_option_name('verified-icon'), 0 );
 $enable_animation = get_option( $trustindex_pm_google->get_option_name('enable-animation'), 1 );
 $show_arrows = get_option( $trustindex_pm_google->get_option_name('show-arrows'), 1 );
-$show_reviewers_photo = get_option( $trustindex_pm_google->get_option_name('show-reviewers-photo'), 1 );
 $widget_setted_up = get_option( $trustindex_pm_google->get_option_name('widget-setted-up'), 0);
 $disable_font = get_option( $trustindex_pm_google->get_option_name('disable-font'), 0 );
-$show_logos = get_option( $trustindex_pm_google->get_option_name('show-logos'), 1 );
-$show_stars = get_option( $trustindex_pm_google->get_option_name('show-stars'), 1 );
-if(is_null($no_rating_text) && $style_id)
-{
-$no_rating_text = in_array($style_id, [ 15, 19 ]) ? 1 : 0;
-}
+$align = get_option( $trustindex_pm_google->get_option_name('align'), in_array($style_id, [ 36, 37, 38, 39 ]) ? 'center' : 'left' );
+$scss_set_tmp = $scss_set ? $scss_set : 'light-background';
+$show_reviewers_photo = get_option( $trustindex_pm_google->get_option_name('show-reviewers-photo'), TrustindexPlugin::$widget_styles[$scss_set_tmp]['reviewer-photo'] ? 1 : 0 );
+$show_logos = get_option( $trustindex_pm_google->get_option_name('show-logos'), TrustindexPlugin::$widget_styles[$scss_set_tmp]['hide-logos'] ? 0 : 1 );
+$show_stars = get_option( $trustindex_pm_google->get_option_name('show-stars'), TrustindexPlugin::$widget_styles[$scss_set_tmp]['hide-stars'] ? 0 : 1 );
 $need_to_refresh = false;
 if($trustindex_pm_google->is_noreg_linked() && $trustindex_pm_google->is_ten_scale_rating_platform())
 {

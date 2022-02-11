@@ -67,11 +67,10 @@ class View {
                             $businesses[0]->photo,
                             $reviews,
                             $options->dark_theme,
-                            $options->hide_based_on
+                            $options->hide_based_on,
+                            true,
+                            true
                         ); ?>
-                        </div>
-                        <div class="wp-google-wr">
-                            <a href="https://search.google.com/local/writereview?placeid=<?php echo $businesses[0]->id; ?>" onclick="return rplg_leave_review_window.call(this)">Ready to review?</a>
                         </div>
                     </div>
                 </div>
@@ -188,7 +187,7 @@ class View {
         <?php $this->js_loader('grw_badge_init');
     }
 
-    function grw_place($rating, $place, $place_img, $reviews, $dark_theme, $hide_based_on, $show_powered = true) {
+    function grw_place($rating, $place, $place_img, $reviews, $dark_theme, $hide_based_on, $show_powered = true, $show_writereview = false) {
         ?>
         <div class="wp-google-left">
             <img src="<?php echo $place_img; ?>" alt="<?php echo $place->name; ?>" width="50" height="50" title="<?php echo $place->name; ?>">
@@ -209,6 +208,12 @@ class View {
             <?php if ($show_powered) { ?>
             <div class="wp-google-powered">
                 <img src="<?php echo GRW_ASSETS_URL; ?>img/powered_by_google_on_<?php if ($dark_theme) { ?>non_<?php } ?>white.png" alt="powered by Google" width="144" height="18" title="powered by Google">
+            </div>
+            <?php } ?>
+
+            <?php if ($show_writereview) { ?>
+            <div class="wp-google-wr">
+                <a href="https://search.google.com/local/writereview?placeid=<?php echo $place->id; ?>" onclick="return rplg_leave_review_window.call(this)"><?php echo __('Ready to review?', 'grw'); ?></a>
             </div>
             <?php } ?>
         </div>

@@ -5,7 +5,7 @@
 
 .google-reviews_page_grw-builder #wpcontent,
 .grw-admin.google-reviews_page_grw-builder #wpcontent {
-    padding-right: 320px;
+    padding-right: 300px;
 }
 
 .toplevel_page_grw .wp-menu-image img {
@@ -223,7 +223,7 @@
     top: 32px;
     bottom: 0;
     right: 0;
-    width: 320px;
+    width: 300px;
     overflow: hidden;
     transition: all 0.3s;
     z-index: 1;

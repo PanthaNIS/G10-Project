@@ -24,3 +24,8 @@ Stack trace:
 #0 [internal function]: Elementor\Core\Logger\Manager->shutdown()
 #1 {main}
   thrown in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/elementor/core/logger/manager.php on line 50
+[10-Feb-2022 09:01:26 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 375
+[10-Feb-2022 09:56:26 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 375
+[10-Feb-2022 13:58:18 UTC] PHP Warning:  count(): Parameter must be an array or an object that implements Countable in /home2/nischtha/demo.nischalpantha.com/wp-content/plugins/woocommerce/packages/woocommerce-admin/src/Features/Marketing.php on line 270
+[10-Feb-2022 15:51:38 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 375
+[10-Feb-2022 16:26:52 UTC] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home2/nischtha/demo.nischalpantha.com/wp-includes/class-wp-image-editor-imagick.php on line 375

@@ -53,6 +53,7 @@
 .wp-gr .wp-google-rating {
     color: #e7711b!important;
     font-size: 20px!important;
+    font-weight: 600!important;
     margin: 0 6px 0 0!important;
     vertical-align: middle!important
 }
@@ -113,8 +114,8 @@
 }
 
 .wp-gr .wp-google-place .wp-star svg {
-    width: 18px!important;
-    height: 18px!important;
+    width: 20px!important;
+    height: 20px!important;
     vertical-align: middle!important
 }
 
@@ -123,8 +124,8 @@
 }
 
 .wp-gr .wp-google-review .wp-star svg {
-    width: 16px!important;
-    height: 16px!important;
+    width: 18px!important;
+    height: 18px!important;
     vertical-align: middle!important
 }
 
@@ -333,8 +334,8 @@
 }
 
 .wp-gr.wpac .wp-google-place .wp-star svg {
-    width: 18px;
-    height: 18px
+    width: 20px;
+    height: 20px
 }
 
 .wp-gr.wpac .wp-google-review .wp-google-stars {
@@ -343,8 +344,8 @@
 }
 
 .wp-gr.wpac .wp-google-review .wp-star svg {
-    width: 16px;
-    height: 16px
+    width: 18px;
+    height: 18px
 }
 
 .wp-gr.wpac .wp-dark .wp-google-name a {
@@ -496,6 +497,8 @@
     position: absolute!important;
     top: 10px!important;
     right: 10px!important;
+    width: 18px!important;
+    height: 18px!important;
 }
 
 .wp-gr .grw-slider .grw-slider-reviews {
@@ -591,7 +594,7 @@
 }
 
 .wp-gr .grw-slider .wp-google-feedback {
-    height: 80px!important;
+    height: 100px!important;
     overflow-y: auto!important;
     padding-right: 10px!important;
 }
@@ -618,8 +621,7 @@
 }
 
 .wp-gr .wp-google-wr {
-    margin: 15px auto 0!important;
-    text-align: center!important;
+    margin: 15px auto 0 -6px!important;
 }
 
 .wp-gr .wp-google-wr a {

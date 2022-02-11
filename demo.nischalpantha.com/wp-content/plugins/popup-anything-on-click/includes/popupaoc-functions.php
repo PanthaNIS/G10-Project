@@ -163,18 +163,22 @@ function popupaoc_clean_color( $color, $fallback = null ) {
 }
 
 /**
- * Sanitize text area value
+ * Allow Valid Html Tags
+ * It will sanitize HTML (strip script and style tags)
  *
  * @package Popup Anything on Click
  * @since 1.0
  */
-function popupaoc_clean_html( $data = array(), $flag = false ) {
+function popupaoc_clean_html( $data = array() ) {
 
-	if( $flag != true ) {
-		$data = popupaoc_nohtml_kses( $data );
+	if ( is_array( $data ) ) {
+
+		$data = array_map( 'paoc_pro_clean_html', $data );
+
+	} elseif ( is_string( $data ) ) {
+		$data = trim( $data );
+		$data = wp_filter_post_kses( $data );
 	}
-
-	$data = stripslashes_deep( $data );
 
 	return $data;
 }

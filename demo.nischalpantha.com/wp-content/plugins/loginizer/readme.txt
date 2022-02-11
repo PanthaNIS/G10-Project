@@ -2,9 +2,9 @@
 Contributors: loginizer, pagelayer, softaculous
 Tags: security, access, admin, Loginizer, login, logs, ban ip, failed login, ip, whitelist ip, blacklist ip, failed attempts, lockouts, hack, authentication, login, security, rename login url, rename login, rename wp-admin, secure wp-admin, rename admin url, secure admin, brute force protection
 Requires at least: 3.0
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.5
-Stable tag: 1.6.8
+Stable tag: 1.7.0
 License: LGPLv2.1
 License URI: http://www.gnu.org/licenses/lgpl-2.1.html
 
@@ -76,6 +76,14 @@ That's it. You're done!
 3. Loginizer Brute Force Settings page
 
 == Changelog ==
+
+= 1.7.0 =
+* Compatible with WordPress 5.9
+* [Feature] [Pro] Added option to choose recaptcha.net instead of google.com for countries that do not support google
+* [Bug Fix] [Pro] Fix to email the correct unblock time when an IP is blocked for extended hours.
+
+= 1.6.9 =
+* [Bug Fix] [Pro] Fix to not show Loginizer 2FA Security Settings in Edit Account page in WooCommerce Customer area. It will be shown in Security (registered by Loginizer) tab instead.
 
 = 1.6.8 =
 * [Feature] Added option to export failed login attempts to CSV file.

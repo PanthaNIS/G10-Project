@@ -161,13 +161,13 @@ $class_name = 'ti-half-width';
 }
 ?>
 <div class="ti-preview-boxes-container">
-<?php foreach(TrustindexPlugin::$widget_styles as $id => $name): ?>
+<?php foreach(TrustindexPlugin::$widget_styles as $id => $style): ?>
 <div class="<?php echo esc_attr($class_name); ?>">
 <div class="ti-box ti-preview-boxes" data-layout-id="<?php echo esc_attr($style_id); ?>" data-set-id="<?php echo esc_attr($id); ?>">
 <div class="ti-header">
 <span class="ti-header-layout-text">
 <?php echo TrustindexPlugin::___('Style'); ?>:
-<strong><?php echo TrustindexPlugin::___($name); ?></strong>
+<strong><?php echo TrustindexPlugin::___($style['name']); ?></strong>
 </span>
 <a href="?page=<?php echo esc_attr($_GET['page']); ?>&tab=setup_no_reg&command=save-set&set_id=<?php echo esc_attr(urlencode($id)); ?>" class="btn-text btn-refresh ti-pull-right" data-loading-text="<?php echo TrustindexPlugin::___("Loading") ;?>"><?php echo TrustindexPlugin::___("Select") ;?></a>
 <div class="clear"></div>
@@ -201,7 +201,7 @@ $widget_has_reviews = !in_array($widget_type, [ 'button', 'badge' ]) || in_array
 <?php if(!in_array($style_id, [ 17, 21 ])): ?>
 <span class="ti-header-layout-text ti-pull-right">
 <?php echo TrustindexPlugin::___('Style'); ?>:
-<strong><?php echo esc_html(TrustindexPlugin::___(TrustindexPlugin::$widget_styles[$scss_set])); ?></strong>
+<strong><?php echo esc_html(TrustindexPlugin::___(TrustindexPlugin::$widget_styles[$scss_set]['name'])); ?></strong>
 </span>
 <?php endif; ?>
 <span class="ti-header-layout-text ti-pull-right">
@@ -262,6 +262,20 @@ $widget_has_reviews = !in_array($widget_type, [ 'button', 'badge' ]) || in_array
 </select>
 </form>
 </div>
+<?php if(!in_array($style_id, [ 17, 21 ])): ?>
+<div class="ti-input-row">
+<label><?php echo TrustindexPlugin::___('Align'); ?></label>
+<form method="post" action="">
+<input type="hidden" name="command" value="save-align" />
+<?php wp_nonce_field( 'save-align_'.$trustindex_pm_google->get_plugin_slug(), '_wpnonce_align' ); ?>
+<select class="form-control" name="align" id="ti-align-id">
+<?php foreach([ 'left', 'center', 'right', 'justify' ] as $align_type): ?>
+<option value="<?php echo esc_attr($align_type); ?>" <?php echo $align_type == $align ? 'selected' : ''; ?>><?php echo TrustindexPlugin::___($align_type); ?></option>
+<?php endforeach; ?>
+</select>
+</form>
+</div>
+<?php endif; ?>
 <?php endif; ?>
 </div>
 <div class="ti-right-block">
@@ -274,7 +288,7 @@ $widget_has_reviews = !in_array($widget_type, [ 'button', 'badge' ]) || in_array
 <label><?php echo TrustindexPlugin::___("Hide reviews without comments"); ?></label>
 </span>
 <?php endif; ?>
-<?php if(!in_array($style_id, [ 17, 18, 21, 24, 25, 26, 27, 28, 29, 30, 35 ])): ?>
+<?php if(!in_array($style_id, [ 17, 18, 21, 24, 25, 26, 27, 28, 29, 30, 35 ]) && TrustindexPlugin::$widget_styles[$scss_set]['_vars']['dots'] !== 'true'): ?>
 <span class="ti-checkbox row">
 <input type="checkbox" name="no-rating-text" value="1" <?php if($no_rating_text): ?>checked<?php endif;?>>
 <label><?php echo TrustindexPlugin::___("Hide rating text"); ?></label>
@@ -286,7 +300,7 @@ $widget_has_reviews = !in_array($widget_type, [ 'button', 'badge' ]) || in_array
 <label><?php echo TrustindexPlugin::___("Show verified review icon"); ?></label>
 </span>
 <?php endif; ?>
-<?php if(in_array($widget_type, [ 'slider', 'sidebar' ]) && !in_array($style_id, [ 8, 9, 10, 18, 19 ])): ?>
+<?php if(in_array($widget_type, [ 'slider', 'sidebar' ]) && !in_array($style_id, [ 8, 9, 10, 18, 19, 37 ])): ?>
 <span class="ti-checkbox row">
 <input type="checkbox" name="show-arrows" value="1" <?php if($show_arrows): ?>checked<?php endif;?>>
 <label><?php echo TrustindexPlugin::___("Show navigation arrows"); ?></label>

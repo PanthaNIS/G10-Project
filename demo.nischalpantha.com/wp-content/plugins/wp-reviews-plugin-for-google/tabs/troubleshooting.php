@@ -28,36 +28,84 @@ unlink($trustindex_pm_google->getCssFile());
 header('Location: admin.php?page=' . sanitize_text_field($_GET['page']) . '&tab=troubleshooting');
 exit;
 }
+if(isset($_GET['delete_css']))
+{
+if(is_file($trustindex_pm_google->getCssFile()))
+{
+unlink($trustindex_pm_google->getCssFile());
+}
+header('Location: admin.php?page=' . sanitize_text_field($_GET['page']) . '&tab=troubleshooting');
+exit;
+}
 $yes_icon = '<span class="dashicons dashicons-yes-alt"></span>';
 $no_icon = '<span class="dashicons dashicons-dismiss"></span>';
-$plugin_updated = ($trustindex_pm_google->get_plugin_current_version() <= "7.9.1");
+$plugin_updated = ($trustindex_pm_google->get_plugin_current_version() <= "7.12");
 $css_inline = get_option($trustindex_pm_google->get_option_name('load-css-inline'), 0);
+$css = get_option($trustindex_pm_google->get_option_name('css-content'));
 ?>
 <div class="ti-box">
 <div class="ti-header"><?php echo TrustindexPlugin::___("Troubleshooting"); ?></div>
 <p><strong><?php echo TrustindexPlugin::___('If you have any problem, you should try these steps:'); ?></strong></p>
 <ul class="troubleshooting-checklist">
 <li>
+<?php echo TrustindexPlugin::___("Trustindex plugin"); ?>
+<ul>
+<li>
 <?php echo TrustindexPlugin::___('Use the latest version:') .' '. ($plugin_updated ? $yes_icon : $no_icon); ?>
 <?php if(!$plugin_updated): ?>
 <a href="/wp-admin/plugins.php"><?php echo TrustindexPlugin::___("Update"); ?></a>
 <?php endif; ?>
-<br />
+</li>
+<li>
 <?php echo TrustindexPlugin::___('Use automatic plugin update:') .' '. (in_array($plugin_slug, $auto_updates) ? $yes_icon : $no_icon); ?>
 <?php if(!in_array($plugin_slug, $auto_updates)): ?>
 <a href="?page=<?php echo sanitize_text_field($_GET['page']); ?>&tab=troubleshooting&auto_update"><?php echo TrustindexPlugin::___("Enable"); ?></a>
-<div class="notice notice-warning">
+<div class="ti-notice notice-warning">
 <p><?php echo TrustindexPlugin::___("You should enable it, to get new features and fixes automatically, right after they published!"); ?></p>
 </div>
 <?php endif; ?>
 </li>
+</ul>
+</li>
+<?php if($css): ?>
 <li>
-<?php echo TrustindexPlugin::___("If CSS file could not saved:"); ?>
+CSS
+<ul>
+<li><?php
+$upload_dir = dirname($trustindex_pm_google->getCssFile());
+echo TrustindexPlugin::___('writing permission') .' (<strong>'. $upload_dir .'</strong>): '. (is_writable($upload_dir) ? $yes_icon : $no_icon); ?>
+</li>
+<li>
+<?php echo TrustindexPlugin::___('CSS content:'); ?>
+<?php
+if(is_file($trustindex_pm_google->getCssFile()))
+{
+$content = file_get_contents($trustindex_pm_google->getCssFile());
+if($content === $css)
+{
+echo $yes_icon;
+}
+else
+{
+echo $no_icon .' '. TrustindexPlugin::___("corrupted") .'
+<div class="ti-notice notice-warning">
+<p><a href="?page='. sanitize_text_field($_GET['page']) .'&tab=troubleshooting&delete_css">'. TrustindexPlugin::___("Delete the CSS file at <strong>%s</strong>.", [ $trustindex_pm_google->getCssFile() ]) .'</a></p>
+</div>';
+}
+}
+else
+{
+echo $no_icon;
+}
+?>
 <span class="ti-checkbox row" style="margin-top: 5px">
 <input type="checkbox" value="1" <?php if($css_inline): ?>checked<?php endif;?> onchange="window.location.href = '?page=<?php echo sanitize_text_field($_GET['page']); ?>&tab=troubleshooting&toggle_css_inline=' + (this.checked ? 1 : 0)">
 <label><?php echo TrustindexPlugin::___("Enable CSS internal loading"); ?></label>
 </span>
 </li>
+</ul>
+</li>
+<?php endif; ?>
 <li>
 <?php echo TrustindexPlugin::___('If you are using cacher plugin, you should:'); ?>
 <ul>
@@ -148,7 +196,8 @@ WP Table Prefix: <?php echo esc_html($wpdb->prefix) ."\n"; ?>
 WP Version: <?php echo esc_html($wp_version) ."\n"; ?>
 Server Name: <?php echo esc_html($_SERVER['SERVER_NAME']) ."\n"; ?>
 Cookie Domain: <?php $cookieDomain = parse_url(strtolower(get_bloginfo('wpurl'))); echo esc_html($cookieDomain['host']) ."\n"; ?>
-CURL Library Present: <?php echo (function_exists('curl_init') ? "Yes" : "No") ."\n\n"; ?>
+CURL Library Present: <?php echo (function_exists('curl_init') ? "Yes" : "No") ."\n"; ?>
+CSS path: <?php echo esc_html($trustindex_pm_google->getCssFile()) ."\n\n"; ?>
 PHP Info: <?php echo "\n\t"; ?>
 Version: <?php echo esc_html(phpversion()) ."\n\t"; ?>
 Memory Usage: <?php echo round(memory_get_usage() / 1024 / 1024, 2) . "MB\n\t"; ?>

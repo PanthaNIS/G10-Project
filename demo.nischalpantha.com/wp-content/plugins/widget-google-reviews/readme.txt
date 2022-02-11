@@ -3,12 +3,12 @@ Contributors: richplugins
 Donate link: https://richplugins.com/business-reviews-bundle-wordpress-plugin
 Tags: google reviews, google, reviews, rating, widget, google business, testimonial, testimonials, google places reviews, map reviews, google my business
 Requires at least: 2.8
-Tested up to: 5.8
-Stable tag: 2.1.0
+Tested up to: 5.9
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Official way to show Google Reviews on your WordPress site without Google crawling and other unofficial methods. Boost user trust and sales on your site!
+Official way to show Google Reviews on WordPress site without Google crawling and other unofficial methods. Boost user trust and sales on your website!
 
 == Description ==
 
@@ -97,6 +97,16 @@ To find out more about who we are and what we do, here are some useful links:
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+
+= 2.1.2 =
+* Translation fixes
+* Style fixes
+
+= 2.1.1 =
+* Update to WP 5.9
+* Improve: RTL support (for admin)
+* Improve: some style fixes
+* Small bug fixes
 
 = 2.1.0 =
 * Bugfix: broken the 'See All Reviews' link without header

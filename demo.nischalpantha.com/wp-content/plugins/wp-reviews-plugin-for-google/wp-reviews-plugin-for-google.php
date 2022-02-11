@@ -3,13 +3,13 @@
 Plugin Name: Widgets for Google Reviews
 Plugin Title: Widgets for Google Reviews Plugin
 Plugin URI: https://wordpress.org/plugins/wp-reviews-plugin-for-google/
-Description: Embed Google reviews fast and easily into your WordPress site. Increase SEO, trust and sales using Google Business reviews.
+Description: Embed Google reviews fast and easily into your WordPress site. Increase SEO, trust and sales using Google reviews.
 Tags: google, google places reviews, reviews, widget, google business, review, testimonial, testimonials, slider, rating, google my business, customer review
 Author: Trustindex.io <support@trustindex.io>
 Author URI: https://www.trustindex.io/
 Contributors: trustindex
 License: GPLv2 or later
-Version: 7.9.1
+Version: 7.12
 Text Domain: wp-reviews-plugin-for-google
 Domain Path: /languages/
 Donate link: https://www.trustindex.io/prices/
@@ -25,7 +25,7 @@ $plugin_slug = $tmp[ count($tmp) - 2 ];
 if(1)
 {
 require_once plugin_dir_path( __FILE__ ) . 'plugin-load.php';
-$trustindex_pm_google = new TrustindexPlugin("google", __FILE__, "7.9.1", "Widgets for Google Reviews", "Google");
+$trustindex_pm_google = new TrustindexPlugin("google", __FILE__, "7.12", "Widgets for Google Reviews", "Google");
 }
 register_activation_hook(__FILE__, array($trustindex_pm_google, 'activate'));
 register_deactivation_hook(__FILE__, array($trustindex_pm_google, 'deactivate'));
@@ -39,13 +39,19 @@ add_action('widgets_init', array($trustindex_pm_google, 'register_widget'));
 }
 if(is_file($trustindex_pm_google->getCssFile()))
 {
-add_action('wp_enqueue_scripts', function() {
+add_action('init', function() {
 global $trustindex_pm_google;
-wp_register_style('ti-widget-css-google', content_url() .'/uploads/'. $trustindex_pm_google->getCssFile(true), [], null);
-});
-add_action('admin_enqueue_scripts', function() {
-global $trustindex_pm_google;
-wp_register_style('ti-widget-css-google', content_url() .'/uploads/'. $trustindex_pm_google->getCssFile(true), [], null);
+if(!isset($trustindex_pm_google) || is_null($trustindex_pm_google))
+{
+require_once plugin_dir_path( __FILE__ ) . 'plugin-load.php';
+$trustindex_pm_google = new TrustindexPlugin("google", __FILE__, "7.12", "Widgets for Google Reviews", "Google");
+}
+$path = wp_upload_dir()['baseurl'] .'/'. $trustindex_pm_google->getCssFile(true);
+if(is_ssl())
+{
+$path = str_replace('http://', 'https://', $path);
+}
+wp_register_style('ti-widget-css-google', $path, [], filemtime($trustindex_pm_google->getCssFile()));
 });
 }
 add_action('init', array($trustindex_pm_google, 'init_shortcode'));

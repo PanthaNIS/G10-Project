@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	<!-- Pro Notice -->
 	<div class="paoc-pro-notice">
 		<i class="dashicons dashicons-money-alt"></i>
-		<?php echo sprintf( __( 'Upgrade to <a href="%s" target="_blank">Pro Version</a> with Essential Plugin Bundle to boost your <b style="color:#FF5D52;">web site, landing pages & conversions</b>.', 'popup-anything-on-click'), POPUPAOC_PLUGIN_LINK); ?>
+		<?php echo sprintf( __( 'Utilize these <a href="%s" target="_blank">Premium Features</a> to get best of this plugin.', 'popup-anything-on-click'), POPUPAOC_PLUGIN_LINK_UNLOCK); ?>
 	</div>
 
 	<div class="inside">

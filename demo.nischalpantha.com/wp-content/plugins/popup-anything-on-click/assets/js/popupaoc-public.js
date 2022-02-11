@@ -89,7 +89,6 @@ var paoc_ideal_timer = 0;
 		$('html').removeClass( 'custombox-lock' );
 
 		Custombox.modal.close();
-		return false;
 	});
 })(jQuery);
 

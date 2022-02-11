@@ -21,7 +21,7 @@ $random_set_id = 'light-background';
 <span class="ti-header-layout-text">
 <?php echo TrustindexPlugin::___('More widget examples'); ?> -
 <strong><?php echo esc_html(TrustindexPlugin::___($template['name'])); ?></strong>
-<?php if(!in_array($id, [ 17, 21 ])): ?> (<?php echo esc_html(TrustindexPlugin::___(TrustindexPlugin::$widget_styles[$random_set_id])); ?>)<?php endif; ?>
+<?php if(!in_array($id, [ 17, 21 ])): ?> (<?php echo esc_html(TrustindexPlugin::___(TrustindexPlugin::$widget_styles[$random_set_id]['name'])); ?>)<?php endif; ?>
 </span>
 </div>
 <div class="preview">
