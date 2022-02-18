@@ -1,5 +1,5 @@
 <?php
-/* GENERATED: 1643876972 */
+/* GENERATED: 1645044642 */
 class TrustindexPlugin
 {
 private $plugin_file_path;
@@ -45,7 +45,7 @@ return basename($this->get_plugin_dir());
  */
 public function loadI18N()
 {
-load_plugin_textdomain('trustindex', false, $this->get_plugin_slug() . '/languages');
+load_plugin_textdomain('trustindex', false, $this->get_plugin_slug() . DIRECTORY_SEPARATOR . 'languages');
 }
 public static function ___($text, $params = null)
 {
@@ -247,7 +247,8 @@ return [
 'show-logos',
 'show-stars',
 'load-css-inline',
-'align'
+'align',
+'amp-hidden-notification'
 ];
 }
 public function get_platforms()
@@ -375,9 +376,9 @@ if(isset($this->plugin_slugs[ $force_platform ]))
 {
 $chosed_platform_slug = $this->plugin_slugs[ $force_platform ];
 $current_platform_slug = $this->plugin_slugs[ $this->shortname ];
-$file_path = preg_replace('/\/[^\/]+\/trustindex-plugin\.class\.php/', "/$chosed_platform_slug/trustindex-plugin.class.php", $file_path);
+$file_path = preg_replace('/[^\/\\\\]+([\\\\\/]trustindex-plugin\.class\.php)/', $chosed_platform_slug . '$1', $file_path);
 }
-$chosed_platform = new TrustindexPlugin($force_platform, $file_path, "do-not-care-7.12", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
+$chosed_platform = new TrustindexPlugin($force_platform, $file_path, "do-not-care-8.1", "do-not-care-Widgets for Google Reviews", "do-not-care-Google");
 if(!$chosed_platform->is_noreg_linked() || !$chosed_platform->is_noreg_table_exists($force_platform))
 {
 return self::get_alertbox(
@@ -481,7 +482,7 @@ if($style_id == 17 || $style_id == 21)
 $server_output['css'] .= '.ti-preview-box { position: initial !important }';
 }
 update_option($this->get_option_name('css-content'), $server_output['css'], false);
-$this->handleCssFile(true);
+$this->handleCssFile();
 }
 return $server_output;
 }
@@ -513,7 +514,7 @@ $this->handleCssFile();
 $this->loadI18N();
 if ( !class_exists('TrustindexGutenbergPlugin') && function_exists( 'register_block_type' ) )
 {
-require_once dirname( __FILE__ ) . '/static/block-editor/block-editor.php';
+require_once dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'static' . DIRECTORY_SEPARATOR . 'block-editor' . DIRECTORY_SEPARATOR . 'block-editor.php';
 TrustindexGutenbergPlugin::instance();
 }
 $used_options = [];
@@ -533,29 +534,44 @@ return $file;
 $upload_dir = wp_upload_dir();
 return trailingslashit($upload_dir['basedir']) . $file;
 }
-public function handleCssFile($force_save = false)
+public function handleCssFile()
 {
 $css = get_option($this->get_option_name('css-content'));
-$css_inline = get_option($this->get_option_name('load-css-inline'), 0);
-if($css && !$css_inline)
-{
-if(is_file($this->getCssFile()) && !$force_save)
+if(!$css)
 {
 return;
 }
-require_once( ABSPATH . 'wp-admin/includes/file.php' );
+if(get_option($this->get_option_name('load-css-inline'), 0))
+{
+return;
+}
+$file_exists = is_file($this->getCssFile());
+if($file_exists && $css === file_get_contents($this->getCssFile()))
+{
+return;
+}
+require_once(ABSPATH . 'wp-admin' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'file.php');
 global $wp_filesystem;
 WP_Filesystem();
-$success = $wp_filesystem->put_contents($this->getCssFile(), $css, 0644);
+$success = $wp_filesystem->put_contents($this->getCssFile(), $css, 0777);
 if(!$success)
 {
-add_action('admin_notices', function() {
+add_action('admin_notices', function() use ($file_exists) {
 echo '<div class="notice notice-error" style="margin: 5px 0 15px">
-<p>'. self::___("Trustindex can not save CSS to <strong>%s</strong>.<br />Grant write permissions to upload folder or enable CSS internal loading in the <a href='%s'>Troubleshooting</a> page otherwise your widgets will not appear!", [ $this->getCssFile(), admin_url('admin.php?page=' . $this->get_plugin_slug() . '/settings.php&tab=troubleshooting') ]) .'</p>
+<p>' .
+'<strong>'. self::___('ERROR with the following plugin:') .'</strong> '. self::___($this->plugin_name) .'<br /><br />' .
+self::___('CSS file could not saved.') .' <strong>('. $this->getCssFile() .')</strong> '. self::___('Your widgets do not display properly!') . '<br />' .
+($file_exists ?
+self::___('CSS file exists and it is not writeable. Delete the file')
+: self::___('Grant write permissions to upload folder')
+) . '<br />' .
+self::___('or') . '<br />' .
+self::___("enable 'CSS internal loading' in the <a href='%s'>Troubleshooting</a> page!", [ admin_url('admin.php?page=' . $this->get_plugin_slug() . '/settings.php&tab=troubleshooting') ]) .
+'</p>
 </div>';
 });
 }
-}
+return $success;
 }
 public static $widget_templates = array (
  'categories' => 
@@ -2380,6 +2396,7 @@ public static $widget_languages = [
 'gl' => 'Galego',
 'hy' => 'հայերեն',
 'ka' => 'ქართული',
+'kk' => 'қазақ'
 ];
 public static $widget_dateformats = [ 'j. F, Y.', 'F j, Y.', 'Y.m.d.', 'Y-m-d', 'd/m/Y' ];
 private static $widget_rating_texts = array (
@@ -2775,6 +2792,14 @@ private static $widget_rating_texts = array (
  3 => 'კარგი',
  4 => 'შესანიშნავი',
  ),
+ 'kk' => 
+ array (
+ 0 => 'кедей',
+ 1 => 'орташадан төмен',
+ 2 => 'орташа',
+ 3 => 'жақсы',
+ 4 => 'өте жақсы',
+ ),
 );
 private static $widget_recommendation_texts = array (
  'en' => 
@@ -3022,6 +3047,11 @@ private static $widget_recommendation_texts = array (
  'negative' => 'NOT_RECOMMEND_ICON არ გირჩევთ',
  'positive' => 'RECOMMEND_ICON გირჩევთ',
  ),
+ 'kk' => 
+ array (
+ 'negative' => 'NOT_RECOMMEND_ICON ұсынбайды',
+ 'positive' => 'RECOMMEND_ICON ұсынады',
+ ),
 );
 private static $widget_verified_texts = array (
  'en' => 'Verified',
@@ -3073,6 +3103,7 @@ private static $widget_verified_texts = array (
  'gl' => 'Verificado',
  'hy' => 'Ստուգված',
  'ka' => 'დამოწმებული',
+ 'kk' => 'тексерілген',
 );
 private static $widget_month_names = array (
  'en' => 
@@ -3810,6 +3841,21 @@ private static $widget_month_names = array (
  10 => 'ნოემბერი',
  11 => 'დეკემბერი',
  ),
+ 'kk' => 
+ array (
+ 0 => 'қаңтар',
+ 1 => 'ақпан',
+ 2 => 'наурыз',
+ 3 => 'сәуір',
+ 4 => 'мамыр',
+ 5 => 'маусым',
+ 6 => 'шілде',
+ 7 => 'тамыз',
+ 8 => 'қыркүйек',
+ 9 => 'қазан',
+ 10 => 'қараша',
+ 11 => 'желтоқсан',
+ ),
 );
 private static $page_urls = array (
  'facebook' => 'https://www.facebook.com/pg/%page_id%',
@@ -4030,6 +4076,14 @@ return self::get_alertbox(
 false
 );
 }
+if(self::is_amp_active() && self::is_amp_enabled())
+{
+return self::get_alertbox(
+"error",
+'<br />' . self::___('Free plugin features are unavailable with AMP plugin.'),
+false
+);
+}
 $script_name = 'trustindex-js';
 if(!wp_script_is($script_name, 'enqueued'))
 {
@@ -4087,13 +4141,18 @@ $this->preview_content = [
 }
 $content = preg_replace('/data-set[_-]id=[\'"][^\'"]*[\'"]/m', 'data-set-id="'. $set_id .'"', $content);
 $class_appends = [];
-if(!$show_logos)
+$widget_type = self::$widget_templates[ 'templates' ][ $style_id ]['type'];
+if(!in_array($widget_type, [ 'button', 'badge' ]) && !$show_logos)
 {
 array_push($class_appends, 'ti-no-logo');
 }
-if(!$show_stars)
+if(!in_array($widget_type, [ 'button', 'badge' ]) && !$show_stars)
 {
 array_push($class_appends, 'ti-no-stars');
+}
+if(!$show_reviewers_photo)
+{
+array_push($class_appends, 'ti-no-profile-img');
 }
 $free_css_class = 'ti-' . substr($this->shortname, 0, 4);
 if($only_preview)
@@ -4115,6 +4174,9 @@ array_push($class_appends, $free_css_class);
 if($class_appends)
 {
 $content = str_replace('class="ti-widget" data-layout-id=', 'class="ti-widget '. implode(' ', $class_appends) .'" data-layout-id=', $content);
+}
+if(!$only_preview)
+{
 if(!wp_style_is('ti-widget-css-' . $this->shortname, 'registered'))
 {
 if(!get_option($this->get_option_name('load-css-inline'), 0))
@@ -4311,7 +4373,7 @@ else
 {
 $array['content'] = preg_replace('/<a href=[\'"]%footer_link%[\'"][^>]*>(.+)<\/a>/mU', '$1', $array['content']);
 }
-if($array['no_rating_text'])
+if($array['no_rating_text'] && $array['style_id'] == 11)
 {
 if(in_array($array['style_id'], [6, 7]))
 {
@@ -4320,10 +4382,6 @@ $array['content'] = preg_replace('/<div class="ti-footer">.*<\/div>/mU', '<div c
 else if(in_array($array['style_id'], [31, 33]))
 {
 $array['content'] = preg_replace('/<div class="ti-header source-.*<\/div>\s?<div class="ti-reviews-container">/mU', '<div class="ti-reviews-container">', $array['content']);
-}
-else if($array['style_id'] == 11)
-{
-$array['content'] = preg_replace('/<div class="ti-text">.*<\/div>/mU', '', $array['content']);
 }
 else
 {
@@ -4679,25 +4737,25 @@ wp_enqueue_style('trustindex_editor_style', $this->get_plugin_file_url('static/c
 }
 else
 {
-$tmp = explode('/', $this->plugin_file_path);
+$tmp = explode(DIRECTORY_SEPARATOR, $this->plugin_file_path);
 $plugin_slug = preg_replace('/\.php$/', '', array_pop($tmp));
 $tmp = explode('/', $hook);
 $current_slug = array_shift($tmp);
 if($plugin_slug == $current_slug)
 {
-if(file_exists($this->get_plugin_dir() . 'static/css/admin-page-settings.css'))
+if(file_exists($this->get_plugin_dir() . 'static' . DIRECTORY_SEPARATOR . 'css' . DIRECTORY_SEPARATOR . 'admin-page-settings.css'))
 {
 wp_enqueue_style('trustindex_settings_style_'. $this->shortname, $this->get_plugin_file_url('static/css/admin-page-settings.css'));
 }
-if(file_exists($this->get_plugin_dir() . 'static/js/admin-page-settings-common.js'))
+if(file_exists($this->get_plugin_dir() . 'static' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'admin-page-settings-common.js'))
 {
 wp_enqueue_script('trustindex_settings_script_common_'. $this->shortname, $this->get_plugin_file_url('static/js/admin-page-settings-common.js'));
 }
-if(file_exists($this->get_plugin_dir() . 'static/js/admin-page-settings-connect.js'))
+if(file_exists($this->get_plugin_dir() . 'static' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'admin-page-settings-connect.js'))
 {
 wp_enqueue_script('trustindex_settings_script_connect_'. $this->shortname, $this->get_plugin_file_url('static/js/admin-page-settings-connect.js'));
 }
-if(file_exists($this->get_plugin_dir() . 'static/js/admin-page-settings.js'))
+if(file_exists($this->get_plugin_dir() . 'static' . DIRECTORY_SEPARATOR . 'js' . DIRECTORY_SEPARATOR . 'admin-page-settings.js'))
 {
 wp_enqueue_script('trustindex_settings_script_'. $this->shortname, $this->get_plugin_file_url('static/js/admin-page-settings.js') );
 }
@@ -4719,7 +4777,7 @@ echo '<style type="text/css">'. html_entity_decode(str_replace('&#039;', "'", es
 }
 public function add_noreg_css_head_admin()
 {
-$tmp = explode('/', $this->plugin_file_path);
+$tmp = explode(DIRECTORY_SEPARATOR, $this->plugin_file_path);
 $plugin_slug = preg_replace('/\.php$/', '', array_pop($tmp));
 $page = sanitize_text_field(isset($_GET['page']) ? $_GET['page'] : "");
 $current_slug = explode('/', $page)[0];
@@ -4822,7 +4880,7 @@ $data['themes'][] = [
 }
 if(!function_exists('get_plugins'))
 {
-require_once ABSPATH . 'wp-admin/includes/plugin.php';
+require_once ABSPATH . 'wp-admin' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'plugin.php';
 }
 $plugins = get_plugins();
 if($plugins)
@@ -4856,6 +4914,40 @@ if($this->shortname == "booking")
 $rating = str_replace('.', ',', $rating);
 }
 return $rating;
+}
+public static function is_amp_active()
+{
+if(!function_exists('get_plugins'))
+{
+require_once ABSPATH . 'wp-admin' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'plugin.php';
+}
+$amp_plugin_keys = [
+'accelerated-mobile-pages/accelerated-moblie-pages.php',
+'amp/amp.php'
+];
+foreach(get_plugins() as $key => $plugin)
+{
+if(in_array($key, $amp_plugin_keys) && is_plugin_active($key))
+{
+return true;
+}
+}
+return false;
+}
+public static function is_amp_enabled()
+{
+if(function_exists('amp_is_request'))
+{
+return amp_is_request();
+}
+else if(function_exists('ampforwp_is_amp_endpoint'))
+{
+return ampforwp_is_amp_endpoint();
+}
+else
+{
+return false;
+}
 }
 public function register_block_editor()
 {

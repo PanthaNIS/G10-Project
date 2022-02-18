@@ -10,7 +10,8 @@ $ti_command_list = [
 'save-language',
 'save-dateformat',
 'save-options',
-'save-align'
+'save-align',
+'save-amp-notice-hide'
 ];
 if(!in_array($ti_command, $ti_command_list))
 {
@@ -43,8 +44,10 @@ unset($page_details['reviews']);
 update_option( $trustindex_pm_google->get_option_name('page-details') , $page_details, false );
 $GLOBALS['wp_object_cache']->delete( $trustindex_pm_google->get_option_name('page-details'), 'options' );
 $dbtable = $trustindex_pm_google->get_noreg_tablename();
-require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-$sql = "CREATE TABLE IF NOT EXISTS $dbtable (
+require_once(ABSPATH . 'wp-admin' . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR . 'upgrade.php');
+if(!$trustindex_pm_google->is_noreg_table_exists())
+{
+dbDelta("CREATE TABLE $dbtable (
 id TINYINT(1) NOT NULL AUTO_INCREMENT,
 user VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci,
 user_photo TEXT,
@@ -53,8 +56,8 @@ rating DECIMAL(3,1),
 highlight VARCHAR(11),
 date DATE,
 PRIMARY KEY (id)
-);";
-dbDelta($sql);
+);");
+}
 if(!$trustindex_pm_google->is_noreg_table_exists())
 {
 delete_option( $trustindex_pm_google->get_option_name('page-details') );
@@ -283,6 +286,11 @@ elseif($ti_command == 'save-align')
 check_admin_referer( 'save-align_'.$trustindex_pm_google->get_plugin_slug(), '_wpnonce_align' );
 update_option( $trustindex_pm_google->get_option_name('align') , sanitize_text_field($_POST['align']), false );
 $trustindex_pm_google->noreg_save_css(true);
+exit;
+}
+elseif($ti_command == 'save-amp-notice-hide')
+{
+update_option( $trustindex_pm_google->get_option_name('amp-hidden-notification'), 1, false );
 exit;
 }
 $reviews = [];

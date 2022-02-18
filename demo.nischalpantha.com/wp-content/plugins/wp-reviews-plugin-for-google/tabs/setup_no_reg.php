@@ -32,6 +32,19 @@
 </p>
 </div>
 <?php endif; ?>
+<?php if(TrustindexPlugin::is_amp_active() && !get_option($trustindex_pm_google->get_option_name('amp-hidden-notification'), 0)): ?>
+<div class="ti-notice notice-warning is-dismissible" style="margin: 0 0 15px 0">
+<p>
+<?php echo TrustindexPlugin::___("Free plugin features are unavailable with AMP plugin."); ?>
+<?php if($trustindex_pm_google->is_trustindex_connected()): ?>
+ <a href="?page=<?php echo esc_attr($_GET['page']); ?>&tab=setup_trustindex_join">Trustindex admin</a>
+<?php else: ?>
+ <a href="https://www.trustindex.io/ti-redirect.php?a=sys&c=wp-amp" target="_blank"><?php echo TrustindexPlugin::___("Try premium features (like AMP) for free"); ?></a>
+<?php endif; ?>
+</p>
+<button type="button" class="notice-dismiss" data-command="save-amp-notice-hide"></button>
+</div>
+<?php endif; ?>
 <?php if($current_step == 1 || !$trustindex_pm_google->is_noreg_linked()): ?>
 <h1 class="ti-free-title">
 1. <?php echo TrustindexPlugin::___('Connect %s platform', [ 'Google' ]); ?>
@@ -288,7 +301,7 @@ $widget_has_reviews = !in_array($widget_type, [ 'button', 'badge' ]) || in_array
 <label><?php echo TrustindexPlugin::___("Hide reviews without comments"); ?></label>
 </span>
 <?php endif; ?>
-<?php if(!in_array($style_id, [ 17, 18, 21, 24, 25, 26, 27, 28, 29, 30, 35 ]) && TrustindexPlugin::$widget_styles[$scss_set]['_vars']['dots'] !== 'true'): ?>
+<?php if(!in_array($style_id, [ 11, 17, 18, 21, 24, 25, 26, 27, 28, 29, 30, 35 ]) && TrustindexPlugin::$widget_styles[$scss_set]['_vars']['dots'] !== 'true'): ?>
 <span class="ti-checkbox row">
 <input type="checkbox" name="no-rating-text" value="1" <?php if($no_rating_text): ?>checked<?php endif;?>>
 <label><?php echo TrustindexPlugin::___("Hide rating text"); ?></label>

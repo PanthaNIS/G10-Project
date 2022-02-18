@@ -6,8 +6,8 @@ $plugin_dirs = scandir(WP_PLUGIN_DIR);
 $ti_plugins = [];
 foreach($plugin_dirs as $dir)
 {
-$class_file = WP_PLUGIN_DIR . '/' . $dir . '/trustindex-plugin.class.php';
-if($dir == '.' || $dir == '..' || !is_dir(WP_PLUGIN_DIR . '/' . $dir) || !file_exists($class_file) || $dir == 'customer-reviews-for-woocommerce')
+$class_file = WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $dir . DIRECTORY_SEPARATOR . 'trustindex-plugin.class.php';
+if($dir == '.' || $dir == '..' || !is_dir(WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $dir) || !file_exists($class_file) || $dir == 'customer-reviews-for-woocommerce')
 {
 continue;
 }

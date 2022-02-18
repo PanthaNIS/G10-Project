@@ -5,7 +5,7 @@ Tags: google, google places reviews, reviews, widget, google business, review, t
 Requires at least: 3.0.1
 Tested up to: 5.9
 Requires PHP: 5.2
-Stable tag: 7.12
+Stable tag: 8.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Plugin Name: Widgets for Google Reviews
@@ -14,7 +14,7 @@ Plugin URI: https://wordpress.org/plugins/wp-reviews-plugin-for-google/
 Author: Trustindex.io <support@trustindex.io>
 Author URI: https://www.trustindex.io/
 Text Domain: wp-reviews-plugin-for-google
-Version: 7.12
+Version: 8.1
 
 Embed Google reviews fast and easily into your WordPress site. Increase SEO, trust and sales using Google reviews.
 
@@ -59,6 +59,7 @@ The Google Reviews WordPress plugin offers various layouts and styles to choose 
 * Use in any page builder: Gutenberg, Elementor, Page Origin, Beaver Builder, WPBakery, Divi, Classic, ...
 * Zero loading time
 * Use of assets stored in CDN
+* Linux & Windows (XAMPP, WAMP,...) compatible
 
 ### Get more features with our professional review software
 
@@ -87,6 +88,7 @@ Here are the features included in the software:
 * Shortcode & HTML/JavaScript support
 * Detailed statistics
 * Priority support
+* AMP support
 
 [Create a free account for more features!](https://www.trustindex.io/ti-redirect.php?a=sys-wp&c=google.php-r2)
 
@@ -128,7 +130,7 @@ Why not display your other ratings, too? Check out our other free review plugins
 If your company does business globally, it’s in your interest to cater to various languages.
 
 Our Widgets for Google Reviews supports the following languages:
-Afrikaans, Albanian, Arabic, Armenian, Azerbaijani, Bengali, Bosnian, Bulgarian, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, Georgian, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Korean, Lithuanian, Macedonian, Malay, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Scottish Gaelic, Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish, Ukranian, Vietnamese, Welsh
+Afrikaans, Albanian, Arabic, Armenian, Azerbaijani, Bengali, Bosnian, Bulgarian, Chinese, Croatian, Czech, Danish, Dutch, English, Estonian, Finnish, French, Galician, Georgian, German, Greek, Hebrew, Hindi, Hungarian, Icelandic, Indonesian, Italian, Japanese, Kazakh, Korean, Lithuanian, Macedonian, Malay, Norwegian, Persian, Polish, Portuguese, Romanian, Russian, Scottish Gaelic, Serbian, Slovak, Slovenian, Spanish, Swedish, Thai, Turkish, Ukranian, Vietnamese, Welsh
 
 == Support ==
 

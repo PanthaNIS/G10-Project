@@ -39,7 +39,7 @@ exit;
 }
 $yes_icon = '<span class="dashicons dashicons-yes-alt"></span>';
 $no_icon = '<span class="dashicons dashicons-dismiss"></span>';
-$plugin_updated = ($trustindex_pm_google->get_plugin_current_version() <= "7.12");
+$plugin_updated = ($trustindex_pm_google->get_plugin_current_version() <= "8.1");
 $css_inline = get_option($trustindex_pm_google->get_option_name('load-css-inline'), 0);
 $css = get_option($trustindex_pm_google->get_option_name('css-content'));
 ?>
@@ -120,24 +120,12 @@ echo $no_icon;
 <li><?php echo TrustindexPlugin::___('Save'); ?></li>
 </ol>
 </li>
-</ul>
-</li>
-<li>
-<?php echo TrustindexPlugin::___("If the widgets are there, but still hidden:"); ?>
-<ul>
-<li><a href="#" onclick="jQuery('#ti-nonce-list-wp-rocket').toggle(); return false;">WP Rocket</a>
-<ol id="ti-nonce-list-wp-rocket" style="display: none; list-style: none">
-<li><?php echo TrustindexPlugin::___('More info: %s', [ '<a href="https://docs.wp-rocket.me/article/975-nonces-and-cache-lifespan" target="_blank">https://docs.wp-rocket.me/article/975-nonces-and-cache-lifespan</a>' ]); ?></li>
-</ol>
-</li>
-<li><a href="#" onclick="jQuery('#ti-nonce-list-wp-super-cache').toggle(); return false;">WP Super Cache</a>
-<ol id="ti-nonce-list-wp-super-cache" style="display: none; list-style: none">
-<li><?php echo TrustindexPlugin::___('Switch off the cache on the pages, you are using our free widgets.'); ?></li>
-</ol>
-</li>
-<li><a href="#" onclick="jQuery('#ti-nonce-list-general-solution').toggle(); return false;">General solution</a>
-<ol id="ti-nonce-list-general-solution" style="display: none; list-style: none">
-<li><?php echo TrustindexPlugin::___('More info: %s', [ '<a href="https://docs.wp-rocket.me/article/975-nonces-and-cache-lifespan" target="_blank">https://docs.wp-rocket.me/article/975-nonces-and-cache-lifespan</a>' ]); ?></li>
+<li><a href="#" onclick="jQuery('#list-w3-total-cache').toggle(); return false;">W3 Total Cache</a>
+<ol id="list-w3-total-cache" style="display: none;">
+<li><?php echo TrustindexPlugin::___('Navigate to'); ?> "Performance" > "Minify"</li>
+<li><?php echo TrustindexPlugin::___('Scroll to'); ?> "Never minify the following JS files"</li>
+<li><?php echo TrustindexPlugin::___('In a new line, add'); ?> https://cdn.trustindex.io/*</li>
+<li><?php echo TrustindexPlugin::___('Save'); ?></li>
 </ol>
 </li>
 </ul>
@@ -164,7 +152,7 @@ echo TrustindexPlugin::___("If the problem/question still exists, please create 
 </li>
 </ul>
 <?php
-$dir = __DIR__ . '/../wp-reviews-plugin-for-google.php';
+$dir = __DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'wp-reviews-plugin-for-google.php';
 $plugin_data = get_plugin_data( $dir );
 ?>
 <?php
@@ -201,13 +189,15 @@ CSS path: <?php echo esc_html($trustindex_pm_google->getCssFile()) ."\n\n"; ?>
 PHP Info: <?php echo "\n\t"; ?>
 Version: <?php echo esc_html(phpversion()) ."\n\t"; ?>
 Memory Usage: <?php echo round(memory_get_usage() / 1024 / 1024, 2) . "MB\n\t"; ?>
-Memory Limit : <?php echo esc_html($memory_limit) . "\n\t"; ?>
-Max Upload Size : <?php echo esc_html($upload_max) . "\n\t"; ?>
-Max Post Size : <?php echo esc_html($post_max) . "\n\t"; ?>
-Allow URL fopen : <?php echo (ini_get('allow_url_fopen') ? "On" : "Off") . "\n\t"; ?>
-Allow URL Include : <?php echo (ini_get('allow_url_include') ? "On" : "Off") . "\n\t"; ?>
-Display Errors : <?php echo (ini_get('display_errors') ? "On" : "Off") . "\n\t"; ?>
-Max Script Execution Time : <?php echo esc_html($max_execute) . " seconds\n\n"; ?>
+Memory Limit: <?php echo esc_html($memory_limit) . "\n\t"; ?>
+Max Upload Size: <?php echo esc_html($upload_max) . "\n\t"; ?>
+Max Post Size: <?php echo esc_html($post_max) . "\n\t"; ?>
+Allow URL fopen: <?php echo (ini_get('allow_url_fopen') ? "On" : "Off") . "\n\t"; ?>
+Allow URL Include: <?php echo (ini_get('allow_url_include') ? "On" : "Off") . "\n\t"; ?>
+Display Errors: <?php echo (ini_get('display_errors') ? "On" : "Off") . "\n\t"; ?>
+Max Script Execution Time: <?php echo esc_html($max_execute) . " seconds\n\t"; ?>
+WP_HTTP_BLOCK_EXTERNAL: <?php echo (defined('WP_HTTP_BLOCK_EXTERNAL') ? var_export(WP_HTTP_BLOCK_EXTERNAL, true) : 'not defined') . "\n\t"; ?>
+WP_ACCESSIBLE_HOSTS: <?php echo (defined('WP_ACCESSIBLE_HOSTS') ? WP_ACCESSIBLE_HOSTS : 'not defined') . "\n\n"; ?>
 Plugin: <?php echo esc_html($plugin_data['Name']) ."\n"; ?>
 Plugin Version: <?php echo esc_html($plugin_data['Version']) ."\n"; ?>
 Options: <?php foreach ($trustindex_pm_google->get_option_names() as $opt_name) {

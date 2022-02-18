@@ -136,7 +136,7 @@ $proxy_check = $db_data;
 }
 }
 ?>
-<div id="ti-assets-error" class="ti-notice notice-warning" style="display: none; margin-left: 0; margin-right: 0; padding-bottom: 9px">
+<div id="ti-assets-error" class="notice notice-warning" style="display: none; margin-left: 0; margin-right: 0; padding-bottom: 9px">
 <p>
 <?php echo TrustindexPlugin::___("You got an error while trying to run this plugin. Please upgrade all the plugins from Trustindex and if the error still persist send the content of the webserver's error log and the content of the Troubleshooting tab to the support!"); ?>
 </p>
@@ -145,7 +145,7 @@ $proxy_check = $db_data;
 <script type="text/javascript">
 window.onload = function() {
 let warning_box = document.getElementById("ti-assets-error");
-let link = document.head.querySelector('link[href*="static/css/admin-page-settings.css"]');
+let link = document.getElementById("trustindex_settings_style_google-css");
 if(typeof Trustindex_Autocomplete == "undefined" || typeof TI_copyTextToClipboard == "undefined" || !link || !Boolean(link.sheet))
 {
 warning_box.style.display = "block";
@@ -215,9 +215,12 @@ href="<?php echo admin_url('admin.php?page='.$trustindex_pm_google->get_plugin_s
 </div>
 <?php endif; ?>
 <div id="tab-<?php echo esc_attr($selected_tab); ?>">
-<?php include( plugin_dir_path(__FILE__ ) . "tabs/".$selected_tab.".php" ); ?>
+<?php include(plugin_dir_path(__FILE__ ) . 'tabs' . DIRECTORY_SEPARATOR . $selected_tab . '.php'); ?>
 </div>
 </div>
 
 </div>
+</div>
+<div id="ti-loading">
+<div class="ti-loading-effect"><div></div><div></div><div></div></div>
 </div>
